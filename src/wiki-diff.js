@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
+import ReactDOMServer from 'react-dom/server';
 
 class WikiDiff extends Component {
     render() {
-        const innerHTMLObj = {__html: this.props.diffObj.diffHTML};
+        const rawDiffHTML = this.props.diffObj.diffHTML
+        const topRows = MakeTitleRow(this.props.diffObj)
+        const diffHTML = topRows + rawDiffHTML
+        const innerHTMLObj = {__html: diffHTML};
+
         return <div className="cs-wiki-diffmediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject mw-editable skin-vector action-view">
-                                                <DiffTitle newold="new" diffObj={this.props.diffObj}>
-                </DiffTitle>
-                <DiffTitle newold="old" diffObj={this.props.diffObj}>
-                </DiffTitle>
+
             <table className="mw-body-content diff diff-contentalign-left">
                 <colgroup>
                     <col className="diff-marker"></col>
@@ -36,16 +38,31 @@ class DiffTitle extends Component {
         const revDate = this.props.diffObj[revDateKey]
         const revUser = this.props.diffObj[revUserKey]
         const revComment = this.props.diffObj[revCommentKey]
-
-        return <tr className="diff-title">
+        const revLink = "https://"+this.props.diffObj['lang']+".wikipedia.org/wiki/?oldid="+revId
+        return(
             <td className={"diff-"+oOrn+"title"} colSpan={2}>
             <div id={"mw-diff-"+oOrn+"title1"}>
-                <strong>{revUser}</strong>
+                <strong>{revDate} <a href={revLink}>{revId}</a></strong>
             </div>
-            </td>
-        </tr>
+            <div id={"mw-diff-"+oOrn+"title2"}>
+                {revUser}
+            </div>
+            <div id={"mw-diff-"+oOrn+"title3"}>
+                {revComment}
+            </div>
+            </td>)
     }
 }
 
 
+function MakeTitleRow(diffObj){
+    const titleRow = <tr className="diff-title">
+                    <DiffTitle newold="new" diffObj={diffObj}>
+                    </DiffTitle>
+                    <DiffTitle newold="old" diffObj={diffObj}>
+                    </DiffTitle>
+                    </tr>
+     const htmlString = ReactDOMServer.renderToStaticMarkup(titleRow)
+    return htmlString
+}
 export default WikiDiff
