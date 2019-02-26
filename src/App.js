@@ -18,7 +18,7 @@ class App extends Component {
     return (
         <Grid>
         <Row>
-            <Cell desktopColumns={8} phoneColumns={12} tabletColumns={6}>
+            <Cell columns={12}>
                 <ThankerTask diffObjs={aDiffJson}>
                 </ThankerTask>
             </Cell>

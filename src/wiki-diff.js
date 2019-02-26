@@ -8,7 +8,7 @@ import Card, {
               CardActionButtons,
               CardActionIcons
             } from "@material/react-card";
-// import {Cell, Grid, Row} from '@material/react-layout-grid';
+import {Cell, Grid, Row} from '@material/react-layout-grid';
 
 
 class WikiDiff extends Component {
@@ -80,7 +80,9 @@ function MakeTitleRow(diffObj){
 class DiffConsideration extends Component{
     render () {
         return(
+            <Cell desktopColumns={6} phoneColumns={12} tabletColumns={12}>
         <Card >
+              <h2 align="center">Edit #{this.props.cardId+1} by user</h2>
             <CardPrimaryContent>
                 <WikiDiff diffObj={this.props.diffObj}>
                 </WikiDiff>
@@ -94,19 +96,27 @@ class DiffConsideration extends Component{
                 </Button>
             </CardActionButtons>
             </CardActions>
-        </Card>)
+        </Card>
+            </Cell>)
 
     }
 }
 
 class DiffConsiderationList extends Component{
-    render() {
-        console.log(this.props.diffObjs)
 
-        const DiffConsiderations = this.props.diffObjs.map((diffObj) =>
-                                                <DiffConsideration diffObj={diffObj}/>)
+    render() {
+        const DiffConsiderations = this.props.diffObjs.map((diffObj, index) =>
+                                                <DiffConsideration
+                                                    diffObj={diffObj}
+                                                    key={index}
+                                                    cardId={index}/>)
         console.log(DiffConsiderations)
-        return <div className="DiffConsiderationList">{DiffConsiderations}</div>
+        return <Grid>
+            <Row>
+                {DiffConsiderations}
+            </Row>
+
+            </Grid>
 
         }
 }
