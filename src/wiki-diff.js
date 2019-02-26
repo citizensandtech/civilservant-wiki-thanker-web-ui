@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
 import ReactDOMServer from 'react-dom/server';
+import Button from '@material/react-button';
+import Card, {
+              CardPrimaryContent,
+              CardMedia,
+              CardActions,
+              CardActionButtons,
+              CardActionIcons
+            } from "@material/react-card";
+// import {Cell, Grid, Row} from '@material/react-layout-grid';
+
 
 class WikiDiff extends Component {
     render() {
@@ -7,8 +17,9 @@ class WikiDiff extends Component {
         const topRows = MakeTitleRow(this.props.diffObj)
         const diffHTML = topRows + rawDiffHTML
         const innerHTMLObj = {__html: diffHTML};
-
-        return <div className="cs-wiki-diffmediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject mw-editable skin-vector action-view">
+        const textDir = this.props.diffObj.lang in ['ar', 'fa'] ? 'rtl' : 'ltr'
+        return <div className={"cs-wiki-diff " + textDir + " sitedir-"+ textDir +
+                            " mw-hide-empty-elt ns-0 ns-subject mw-editable skin-vector action-view"}>
 
             <table className="mw-body-content diff diff-contentalign-left">
                 <colgroup>
@@ -65,4 +76,61 @@ function MakeTitleRow(diffObj){
      const htmlString = ReactDOMServer.renderToStaticMarkup(titleRow)
     return htmlString
 }
-export default WikiDiff
+
+class DiffConsideration extends Component{
+    render () {
+        return(
+        <Card >
+            <CardPrimaryContent>
+                <WikiDiff diffObj={this.props.diffObj}>
+                </WikiDiff>
+            </CardPrimaryContent>
+            <CardActions>
+            <CardActionButtons>
+                <Button
+                raised className='button-alternate' onClick={this.props.sendThank}>
+                    Thank Edit!
+
+                </Button>
+            </CardActionButtons>
+            </CardActions>
+        </Card>)
+
+    }
+}
+
+class DiffConsiderationList extends Component{
+    render() {
+        console.log(this.props.diffObjs)
+
+        const DiffConsiderations = this.props.diffObjs.map((diffObj) =>
+                                                <DiffConsideration diffObj={diffObj}/>)
+        console.log(DiffConsiderations)
+        return <div className="DiffConsiderationList">{DiffConsiderations}</div>
+
+        }
+}
+
+
+class ThankerTask extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+          lang: null
+        };
+      }
+
+  sendThanks(revId, lang){
+        alert("would now be sending thanks to ${revId} on lang ${lang}")
+        return true
+    }
+
+    render() {
+        return <DiffConsiderationList sendThanks={this.sendThanks}
+                               diffObjs={this.props.diffObjs}
+                />
+    }
+
+}
+
+export default ThankerTask

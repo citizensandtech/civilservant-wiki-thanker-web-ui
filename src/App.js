@@ -1,31 +1,29 @@
 import React, {Component} from 'react';
-import Button from '@material/react-button';
-import WikiDiff from './wiki-diff'
+import ThankerTask from './wiki-diff'
 
 import './App.scss';
-import './Wikipedia.css';
+import './WikipediaDiff.css';
 import aDiffJson from './assets/aDiff.json';
+
+import {Cell, Grid, Row} from '@material/react-layout-grid';
+
+import '@material/react-layout-grid/index.scss';
+import '@material/react-card/index.scss';
+import '@material/react-button/index.scss';
 
 // add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Button
-          raised
-          className='button-alternate'
-          onClick={() => console.log('clicked!') }
-        >
-          Click Me!
-        </Button>
-
-          <WikiDiff diffObj={aDiffJson}>
-
-          </WikiDiff>
-      </div>
-
-
+        <Grid>
+        <Row>
+            <Cell desktopColumns={8} phoneColumns={12} tabletColumns={6}>
+                <ThankerTask diffObjs={aDiffJson}>
+                </ThankerTask>
+            </Cell>
+        </Row>
+        </Grid>
     );
   }
 }
