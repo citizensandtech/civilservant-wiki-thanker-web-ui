@@ -12,41 +12,40 @@ import '@material/react-card/index.scss';
 import '@material/react-button/index.scss';
 import '@material/react-material-icon/index.scss';
 
-// add the appropriate line(s) in Step 3a if you are using compiled CSS instead.
 import './react-button-overrides.scss'
 
 class App extends Component {
     constructor(props) {
-    super(props);
-    this.state = {
-        lang: null,
-        diffObjs: aDiffObjs,
-        isSuperThankerApp: false,
-    };
-}
-    updateDiffData(data){
-        this.setState({diffObjs:data})
+        super(props);
+        this.state = {
+            lang: null,
+            diffObjs: aDiffObjs,
+            isSuperThankerApp: false,
+        };
     }
+
+    updateDiffData(data) {
+        this.setState({diffObjs: data})
+    }
+
     // componentWillMount(){
     //     loadDataFromFile("aDiff.json", this.updateDiffData)
     // }
 
-  render() {
-    return (
-        <Grid>
-        <Row>
-            <Cell columns={12}>
-                <ThankerTask diffObjs={this.state.diffObjs}
-                             sendThanks={sendThanks}>
-                </ThankerTask>
-            </Cell>
-        </Row>
-        </Grid>
-    );
-  }
+    render() {
+        return (
+            <Grid>
+                <Row>
+                    <Cell columns={12}>
+                        <ThankerTask diffObjs={this.state.diffObjs}
+                                     sendThanks={sendThanks}>
+                        </ThankerTask>
+                    </Cell>
+                </Row>
+            </Grid>
+        );
+    }
 }
-
-
 
 
 export default App;

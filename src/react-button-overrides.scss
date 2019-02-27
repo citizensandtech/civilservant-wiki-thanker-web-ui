@@ -6,6 +6,10 @@
   @include mdc-button-container-fill-color(orange);
 }
 
+.button-alternate-skip {
+  @include mdc-button-container-fill-color(purple);
+}
+
 .mdc-card__actions{
   align-self: center;
 }

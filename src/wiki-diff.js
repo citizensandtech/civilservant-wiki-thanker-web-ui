@@ -90,8 +90,8 @@ class DiffConsideration extends Component {
                             <Button
                                 raised className='button-alternate' onClick={this.props.sendThanks}>
                                 Thank Edit
-                                <MaterialIcon icon='person' />
-                                <MaterialIcon icon='mood' />
+                                <MaterialIcon icon='person'/>
+                                <MaterialIcon icon='mood'/>
                                 <MaterialIcon icon='thumb_up_alt'/>
                             </Button>
                         </CardActionButtons>
@@ -104,10 +104,10 @@ class DiffConsideration extends Component {
 
 class DiffConsiderationList extends Component {
     render() {
-        console.log(this.props.diffObjs)
+        console.log(this.props.diffObjs);
         const sendThanks = this.props.sendThanks;
-        if (this.props.diffObjs !== null || this.props.diffOjbs !== undefined){
-            console.log(this.props.diffObjs)
+        if (this.props.diffObjs !== null || this.props.diffOjbs !== undefined) {
+            console.log(this.props.diffObjs);
             const DiffConsiderations = this.props.diffObjs.map((diffObj, index) =>
                 <DiffConsideration
                     diffObj={diffObj}
@@ -119,7 +119,7 @@ class DiffConsiderationList extends Component {
                     {DiffConsiderations}
                 </Row>
             </Grid>)
-        } else{
+        } else {
             return <div>Loading.</div>
         }
     }
@@ -129,8 +129,20 @@ class DiffConsiderationList extends Component {
 class ThankerTask extends Component {
 
     render() {
-        return <DiffConsiderationList sendThanks={this.props.sendThanks}
-                                      diffObjs={this.props.diffObjs}/>
+        return (<div className="cs-thanker-task">
+            <DiffConsiderationList sendThanks={this.props.sendThanks}
+                                   diffObjs={this.props.diffObjs}/>
+            <Button
+                raised className='button-alternate-skip' onClick={() => alert('todo implement skip task.')}>
+                Pass (go on to next editor).
+                <MaterialIcon icon='skip_next'/>
+                <MaterialIcon icon='arrow_right_alt'/>
+                <MaterialIcon icon='arrow_forward'/>
+                <MaterialIcon icon='arrow_forward_ios'/>
+                <MaterialIcon icon='arrow_right'/>
+                <MaterialIcon icon='chevron_right'/>
+            </Button>
+        </div>)
     }
 
 }
