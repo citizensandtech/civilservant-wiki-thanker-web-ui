@@ -3,11 +3,11 @@ import ReactDOMServer from 'react-dom/server';
 import Button from '@material/react-button';
 import Card, {
     CardPrimaryContent,
-    CardMedia,
     CardActions,
     CardActionButtons,
-    CardActionIcons
 } from "@material/react-card";
+import MaterialIcon from '@material/react-material-icon'
+
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 
 
@@ -31,7 +31,6 @@ class WikiDiff extends Component {
                 <tbody
                     data-mw="interface"
                     dangerouslySetInnerHTML={innerHTMLObj}/>
-
             </table>
         </div>
     }
@@ -91,6 +90,9 @@ class DiffConsideration extends Component {
                             <Button
                                 raised className='button-alternate' onClick={this.props.sendThanks}>
                                 Thank Edit
+                                <MaterialIcon icon='person' />
+                                <MaterialIcon icon='mood' />
+                                <MaterialIcon icon='thumb_up_alt'/>
                             </Button>
                         </CardActionButtons>
                     </CardActions>
@@ -102,39 +104,32 @@ class DiffConsideration extends Component {
 
 class DiffConsiderationList extends Component {
     render() {
+        console.log(this.props.diffObjs)
         const sendThanks = this.props.sendThanks;
-        const DiffConsiderations = this.props.diffObjs.map((diffObj, index) =>
-            <DiffConsideration
-                diffObj={diffObj}
-                key={index}
-                cardId={index}
-                sendThanks={sendThanks}/>);
-        return <Grid>
-            <Row>
-                {DiffConsiderations}
-            </Row>
-
-        </Grid>
-
+        if (this.props.diffObjs !== null || this.props.diffOjbs !== undefined){
+            console.log(this.props.diffObjs)
+            const DiffConsiderations = this.props.diffObjs.map((diffObj, index) =>
+                <DiffConsideration
+                    diffObj={diffObj}
+                    key={index}
+                    cardId={index}
+                    sendThanks={sendThanks}/>);
+            return (<Grid>
+                <Row>
+                    {DiffConsiderations}
+                </Row>
+            </Grid>)
+        } else{
+            return <div>Loading.</div>
+        }
     }
 }
 
 
 class ThankerTask extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            lang: null
-        };
-    }
-
-    sendThanks(revId, lang) {
-        alert(`would now be sending thanks to ${revId} on lang ${lang}`);
-        return true
-    }
 
     render() {
-        return <DiffConsiderationList sendThanks={this.sendThanks}
+        return <DiffConsiderationList sendThanks={this.props.sendThanks}
                                       diffObjs={this.props.diffObjs}/>
     }
 
