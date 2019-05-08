@@ -57,8 +57,8 @@ class DiffTitle extends Component {
                 <div id={"mw-diff-" + oOrn + "title2"}>
                     {revUser}
                 </div>
-                <div id={"mw-diff-" + oOrn + "title3"}>
-                    {revComment}
+                <div id={"mw-diff-" + oOrn + "title3"}
+                     dangerouslySetInnerHTML={{__html:revComment}}>
                 </div>
             </td>)
     }

@@ -8,5 +8,4 @@ export function loadDataFromFile(fname, cb) {
         console.log(response)
         return cb(response.json());
     });
-
 }

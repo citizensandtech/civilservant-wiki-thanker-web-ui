@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ThankerTask from './wiki-diff';
-import {loadDataFromFile, sendThanks} from './thanker-comm';
+import {loadDataFromFile, sendThanks} from './api';
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import aDiffObjs from './assets/test_data/pl_439314'
 
