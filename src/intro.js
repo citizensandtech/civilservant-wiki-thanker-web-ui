@@ -16,7 +16,7 @@ class Tro extends Component {
         const isIntro = this.props.tro === "intro"
         const troTitle = isIntro ? i10n("thanker.landing.title"): i10n("thanker.end.title");
         const explainerText = isIntro? i10n("thanker.landing.body"): i10n("thanker.end.body");
-        const nextText = i10n("thanker.landing.next")
+        const nextText = i10n("thanker.landing.next.button")
         const action =  isIntro? <Button raised className='button-alternate-skip' onClick={() => this.props.nextPhase()}>
                                                         {nextText}
                                                         <MaterialIcon icon='skip_next'/> </Button>:

@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import ThankerTask from './wiki-diff';
 import Tro from './intro';
 import Progbar from './progbar'
-import {sendThanks, skipThanks, getNewTask, getUserData} from './api';
+import {sendThanks, skipThanks, getSingleTaskDatum, getInitialData} from './api';
 import fetchMock from 'fetch-mock';
 
 import config from './config'
 
-import exampleTasks from './assets/test_data/pl_4_example_tasks'
+import exampleInitialData from './assets/test_data/pl_intialdata_plus_2_example_tasks'
 import exampleNextTask from './assets/test_data/pl_1_example_next_task'
 import './App.scss';
 
@@ -27,28 +27,29 @@ import {i10n} from "./i10n";
 
 import ErrorBoundary from './error';
 
-fetchMock.get("*", exampleNextTask);
-console.log("exampleNextTask is: ", exampleNextTask)
+fetchMock.get("https://wikithankerapi.civilservant.io/api/userData", exampleNextTask);
+fetchMock.get("https://wikithankerapi.civilservant.io/api/getInitialData", exampleInitialData);
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             config: config,
-            lang: 'pl',
-            worksetData: exampleTasks,
-            worksetResults: new Array(exampleTasks.length).fill(null),
-            currTaskPos: 0,
-            isSuperThankerApp: false,
+            lang: null,
+            userId: null,
+            isSuperThanker: false,
+            worksetData: Array(),
+            worksetResults: Array(),
             appPhase: "intro",
         };
+        // get live data
+        getInitialData(this.setIntialData.bind(this))
     }
 
     getCurrTaskPos() {
         //returns negative 1 if completed
         return this.state.worksetResults.indexOf(null)
     }
-
 
     getNumThanksSent() {
         const thanks = this.state.worksetResults.filter(res => typeof(res) === "number")
@@ -60,21 +61,29 @@ class App extends Component {
         return skips.length
     }
 
+    setIntialData(initialAPIData){
+        const initialMetadata = initialAPIData.metadata
+        this.setState({lang:initialMetadata.lang,
+                       isSuperThanker:initialMetadata.isSuperThanker})
+        const initialTaskData = initialAPIData.taskData
+        this.setState({worksetData:initialTaskData,
+                       worksetResults:Array(initialTaskData.length).fill(null)})
+    }
+
     appendTask(taskDatum) {
         console.log("appender called with taskDatum: ", taskDatum)
         console.log("appender called and stateTask : ", this.state.worksetData)
         this.state.worksetData.push(taskDatum);
         this.state.worksetResults.push(null);
-        this.setState({worksetData: this.state.worksetData})
-        this.setState({worksetResults: this.state.worksetResults})
+        this.setState({worksetData: this.state.worksetData,
+                       worksetResults: this.state.worksetResults})
     }
 
-    skipAndNext(taskId) {
-        console.log("record next state");
-        skipThanks(taskId, this.state.lang, this.state.userId);
-        getUserData(this.appendTask.bind(this))
+    skipAndNext(thankeeId) {
+        console.log("skipping taskId, ", thankeeId);
+        skipThanks(thankeeId, this.state.lang, this.state.userId);
         let nextWorkResults = this.state.worksetResults
-        nextWorkResults[this.state.currTaskPos] = 'skip';
+        nextWorkResults[this.getCurrTaskPos()] = 'skip';
         this.setState({worksetResults: nextWorkResults});
         const numSkipped = this.getNumSkipped()
         if (numSkipped % 3 === 0) {
@@ -86,7 +95,7 @@ class App extends Component {
     sendAndNext(revId) {
         sendThanks(revId, this.state.lang, this.state.userId);
         let nextWorkResults = this.state.worksetResults
-        nextWorkResults[this.state.currTaskPos] = revId;
+        nextWorkResults[this.getCurrTaskPos()] = revId;
         console.log("workResults are after updating: ", this.state.worksetResults);
         this.setState({worksetResults: nextWorkResults});
         this.notifyThankSent();
@@ -95,12 +104,12 @@ class App extends Component {
 
 
     nextTask() {
-        const currTaskPos = this.getCurrTaskPos();
         // check if we are at the end
-        if (currTaskPos === -1) { //-1 to account for 0 indexing
+        if (this.getNumThanksSent() === 4 && !this.state.isSuperThanker ) { //-1 to account for 0 indexing
             this.nextPhase()
+        } else {
+        getSingleTaskDatum(this.appendTask.bind(this))
         }
-        this.setState({currTaskPos: currTaskPos})
     }
 
     nextPhase() {
@@ -127,8 +136,10 @@ class App extends Component {
 
 
     render_task() {
-        const currDiffObjs = this.state.worksetData[this.state.currTaskPos];
-        console.log("currTask position:", this.state.currTaskPos);
+        const currTaskPos = this.getCurrTaskPos()
+
+        const currDiffObjs = this.state.worksetData[currTaskPos];
+        console.log("currTask position:", currTaskPos);
         console.log("worksetData is: ", this.state.worksetData);
         console.log("worksetResults is: ", this.state.worksetResults);
         console.log("currDiffObjs :", currDiffObjs);
@@ -165,7 +176,7 @@ class App extends Component {
     }
 
     render() {
-        const currTaskPos = this.getCurrTaskPos()
+        console.log('in render initial: superthanker', this.state.isSuperThanker)
 
         let middlePart = this.render_intro()
         let thankProgress = 0

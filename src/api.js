@@ -1,6 +1,6 @@
+// Sending Functions
 
-
-export function sendThanks(revId, lang, userId) {
+export function sendThanks(thankeeId, revId, lang) {
     // alert(`would now be sending thanks to ${revId} on lang ${lang} from user ${userId}`);
     return true
 }
@@ -10,11 +10,22 @@ export function skipThanks(revId, lang, userId) {
     return true
 }
 
+// Receiving Functions
+
+export function getInitialData(cb){
+    //get the first metadata and first two items
+    fetch("https://wikithankerapi.civilservant.io/api/getInitialData").then(function(response){
+        response.json().then(function(data){
+            console.log('in user data, data is:', data)
+            cb(data)});
+    })
+}
+
 export function getNewTask(cb){
-    getUserData('test_data/pl_451404.json', cb)
+    getSingleTaskDatum('test_data/pl_451404.json', cb)
     }
 
-export function getUserData(cb){
+export function getSingleTaskDatum(cb){
     // gets data about the users to be thanked, called once at the beginning
     fetch("https://wikithankerapi.civilservant.io/api/userData").then(function(response){
         response.json().then(function(data){
