@@ -4,8 +4,9 @@ class Countdown extends Component {
     state = {
         timerOn: false,
         // timerTime: 600000, // seconds to countdown in milliseconds
-        timerTime: 2000, // seconds to countdown in milliseconds
-        timerStart: 0
+        timerTime: 100000, // seconds to countdown in milliseconds
+        timerStart: 0,
+        refreshMillis: 500
     };
 
     startTimer = () => {
@@ -14,20 +15,22 @@ class Countdown extends Component {
             timerTime: this.state.timerTime,
             timerStart: this.state.timerTime
         });
+
         this.timer = setInterval(() => {
-            const newTime = this.state.timerTime - 10;
+            const newTime = this.state.timerTime - this.state.refreshMillis;
             if (newTime >= 0) {
                 this.setState({
                     timerTime: newTime
                 });
+                const timerPercent = 1-(newTime / this.state.timerStart)
+                this.props.updateActivityProgress(timerPercent)
             } else {
                 clearInterval(this.timer);
                 this.setState({timerOn: false});
                 this.props.timerCompleteCB();
                 this.stopTimer();
-                this.resetTimer();
             }
-        }, 10);
+        }, this.state.refreshMillis);
     };
 
     stopTimer = () => {

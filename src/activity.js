@@ -70,7 +70,9 @@ class Activity extends Component {
                                 <MaterialIcon icon={'start'}/>
                                     </Button>
         const countdownTimer =    <Countdown timerStarted={this.state.timerStarted}
-                                       timerCompleteCB={this.completeTimer.bind(this)}/>
+                                       timerCompleteCB={this.completeTimer.bind(this)}
+                                             updateActivityProgress={this.props.updateActivityProgress}
+                                    />
         const countdownHeaderUncomplete = <h2 className={"activity-complete-header"}>
                                     {i10n("activity.tool.timer.end", this.props.lang)}</h2>
         const countdownHeaderComplete = <h2 className={"activity-complete-completed-text"}>

@@ -139,10 +139,10 @@ class App extends Component {
         }
     }
 
-    setPhaseActivity(){
-        this.setState({appPhase:"activity"})
+    updateActivityProgress(timerPercent){
+        const currProgress = (1 - config.startProgAmount - config.endProgAmount) * (timerPercent) + config.startProgAmount
+        this.setState({currProgress:currProgress})
     }
-
 
     notifyManySkips() {
         toast(i10n("thanker.tool.skip.manyskips"));
@@ -161,10 +161,6 @@ class App extends Component {
         const currTaskPos = this.getCurrTaskPos()
 
         const currDiffObjs = this.state.worksetData[currTaskPos];
-        console.log("currTask position:", currTaskPos);
-        console.log("worksetData is: ", this.state.worksetData);
-        console.log("worksetResults is: ", this.state.worksetResults);
-        console.log("currDiffObjs :", currDiffObjs);
 
         return (
             <Grid>
@@ -204,8 +200,6 @@ class App extends Component {
     }
 
     render() {
-        console.log('in render initial: superthanker', this.state.isSuperThanker)
-
         let middlePart = this.render_intro()
         let thankProgress = 0
 
@@ -246,9 +240,12 @@ class App extends Component {
                 />
                     <Router>
                         <Route exact path="/activity" render={()=>
-                            <Activity lang={this.state.lang} appPhase={this.state.appPhase}
+                            <Activity lang={this.state.lang}
+                                      appPhase={this.state.appPhase}
                                       nextPhase={this.nextPhase.bind(this)}
-                                      sendActivityDone={this.sendActivityDone.bind(this)}  />}
+                                      sendActivityDone={this.sendActivityDone.bind(this)}
+                                      updateActivityProgress={this.updateActivityProgress.bind(this)}
+                            />}
                         />
                         <Route exact path="/thanker" render={()=>(middlePart)}/>
                     </Router>
