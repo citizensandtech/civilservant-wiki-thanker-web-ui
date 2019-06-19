@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ThankerTask from './wiki-diff';
 import Tro from './intro';
 import Progbar from './progbar'
-import {sendThanks, skipThanks, getSingleTaskDatum, getInitialData} from './api';
+import {sendThanks, skipThanks, getSingleTaskDatum, getInitialData, sendActivityComplete} from './api';
 import fetchMock from 'fetch-mock';
 
 import config from './config'
@@ -25,22 +25,28 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {i10n} from "./i10n";
 
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+
 import ErrorBoundary from './error';
+import Activity from "./activity";
 
 fetchMock.get("https://wikithankerapi.civilservant.io/api/userData", exampleNextTask);
 fetchMock.get("https://wikithankerapi.civilservant.io/api/getInitialData", exampleInitialData);
+fetchMock.get("https://wikithankerapi.civilservant.io/api/activityComplete/pl/null", {'success':true});
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             config: config,
-            lang: null,
+            lang: 'en',
             userId: null,
             isSuperThanker: false,
-            worksetData: Array(),
-            worksetResults: Array(),
+            worksetData: [],
+            worksetResults: [],
             appPhase: "intro",
+            condition: null,
+            currProgress: 0
         };
         // get live data
         getInitialData(this.setIntialData.bind(this))
@@ -102,6 +108,13 @@ class App extends Component {
         this.nextTask()
     }
 
+    sendActivityDone() {
+        console.log("activity done being triggered")
+        sendActivityComplete(this.state.lang, this.state.userId);
+        this.notifyActivityDone();
+        this.nextPhase()
+    }
+
 
     nextTask() {
         // check if we are at the end
@@ -126,12 +139,21 @@ class App extends Component {
         }
     }
 
+    setPhaseActivity(){
+        this.setState({appPhase:"activity"})
+    }
+
+
     notifyManySkips() {
         toast(i10n("thanker.tool.skip.manyskips"));
     }
 
     notifyThankSent() {
         toast(i10n("thanker.tool.confirmation"));
+    }
+
+    notifyActivityDone() {
+        toast(i10n("activity.confirm.sent"));
     }
 
 
@@ -161,16 +183,22 @@ class App extends Component {
         );
     }
 
+
     render_intro() {
         return (
-                <Tro tro={"intro"} nextPhase={this.nextPhase.bind(this)}>
+                <Tro tro={"intro"} nextPhase={this.nextPhase.bind(this)}
+                next={i10n("thanker.landing.next.button", this.state.lang)}
+                title={i10n("thanker.landing.title", this.state.lang)}
+                body={i10n("thanker.landing.body", this.state.lang)}>
                 </Tro>
         )
     }
 
     render_outro() {
         return (
-                <Tro tro={"outro"}>
+                <Tro tro={"outro"}
+                title={i10n("thanker.end.title", this.state.lang)}
+                body={i10n("thanker.end.body", this.state.lang)}>
                 </Tro>
         )
     }
@@ -191,7 +219,11 @@ class App extends Component {
                 console.log("rendering ", this.state.appPhase);
                 middlePart = this.render_task();
                 thankProgress = (1 - config.startProgAmount - config.endProgAmount) * (this.getNumThanksSent() / config.tasksPerUser) + config.startProgAmount
-
+                break;
+            case "activity":
+                console.log("rendering ", this.state.appPhase);
+                middlePart = this.render_activity();
+                thankProgress = 0.5 + config.startProgAmount
                 break;
             case "outro":
                 console.log("rendering ", this.state.appPhase);
@@ -208,11 +240,18 @@ class App extends Component {
             <div className="thank-container">
                 <ErrorBoundary>
                 <ToastContainer/>
-                <Progbar progress={thankProgress}
+                <Progbar progress={this.state.currProgress}
                          numThanksSent={this.getNumThanksSent()}
                          numSkipped={this.getNumSkipped()}
                 />
-                {middlePart}
+                    <Router>
+                        <Route exact path="/activity" render={()=>
+                            <Activity lang={this.state.lang} appPhase={this.state.appPhase}
+                                      nextPhase={this.nextPhase.bind(this)}
+                                      sendActivityDone={this.sendActivityDone.bind(this)}  />}
+                        />
+                        <Route exact path="/thanker" render={()=>(middlePart)}/>
+                    </Router>
                 </ErrorBoundary>
             </div>
             )

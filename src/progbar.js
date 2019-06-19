@@ -15,19 +15,19 @@ class Progbar extends React.Component {
                     <Row>
                         <Cell desktopColumns={4} phoneColumns={4} tabletColumns={3}>
                             <div className={"thanker-progress-progress"}>
-                                {i10n("thanker.tool.progress")}
+                                {i10n("thanker.tool.progress", this.props.lang, )}
                             </div>
                         </Cell>
                         <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
                             <div className={"thanker-progress-numthanked"}>
-                                {i10n("thanker.tool.progress.1")}
-                                {this.props.numThanksSent}
+                                {i10n("thanker.tool.progress.1", this.props.lang, this.props.numThanksSent )}
+
                             </div>
                         </Cell>
                         <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
                             <div className={"thanker-progress-numskipped"}>
-                                {i10n("thanker.tool.progress.2")}
-                                {this.props.numSkipped}
+                                {i10n("thanker.tool.progress.2", this.props.lang, this.props.numSkipped)}
+
                             </div>
                         </Cell>
                     </Row>

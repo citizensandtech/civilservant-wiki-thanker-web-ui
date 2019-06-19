@@ -83,7 +83,7 @@ class DiffConsideration extends Component {
         return (
             <Cell desktopColumns={6} phoneColumns={12} tabletColumns={12}>
                 <Card>
-                    <h2 align="center">{i10n("thanker.tool.diff.title") + ' ' + this.props.cardId + 1}</h2>
+                    <h2 align="center">{i10n("thanker.tool.diff.title", this.props.lang, `${this.props.cardId+1}`)}</h2>
                     <CardPrimaryContent>
                         <WikiDiff diffObj={this.props.diffObj}>
                         </WikiDiff>
@@ -131,7 +131,7 @@ class DiffConsiderationList extends Component {
 class ThankerTask extends Component {
     makeSkipButton(numSkipped) {
         const skipMessage = numSkipped < 3 ?
-            <div className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip")} </div>:
+            <div className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, numSkipped)} </div>:
             <div className="thanker-task-skip-instructions-extra"> {i10n("thanker.tool.skip.manyskips")} </div>
         return <div className="thanker-task-skip">
             {skipMessage}
