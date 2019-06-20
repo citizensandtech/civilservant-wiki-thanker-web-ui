@@ -27,20 +27,6 @@ class Thanking extends Component {
         getInitialData(this.setInititalData.bind(this))
     }
 
-    setInititalData(initialAPIData) {
-        const initialMetadata = initialAPIData.metadata
-        this.setState({
-            lang: initialMetadata.lang,
-            isSuperThanker: initialMetadata.isSuperThanker
-        })
-        this.props.setLang(initialMetadata.lang)
-
-        const initialTaskData = initialAPIData.taskData
-        this.setState({
-            worksetData: initialTaskData,
-            worksetResults: Array(initialTaskData.length).fill(null)
-        })
-    }
 
     getCurrTaskPos() {
         //returns negative 1 if completed

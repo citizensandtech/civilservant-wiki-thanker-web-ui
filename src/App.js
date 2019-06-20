@@ -25,6 +25,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
 import ErrorBoundary from './error';
 import Activity from "./activity";
+import URLreceiver from "./initiate";
 
 fetchMock.get("https://wikithankerapi.civilservant.io/api/activityComplete/pl/null", {'success':true});
 
@@ -83,6 +84,12 @@ class App extends Component {
     setLang(lang){
         this.setState({lang:lang})
     }
+    setUserId(userId){
+        this.setState({userId:userId})
+    }
+    setCondition(condition){
+        this.setState({condition:condition})
+    }
 
     notifyManySkips() {
         toast(i10n("thanker.tool.skip.manyskips"));
@@ -125,6 +132,14 @@ class App extends Component {
                                       setLang={this.setLang.bind(this)}
                             />}
                         />
+
+                        <Route path="/initiate/:lang/:userId/" render={(props) =>
+                            <URLreceiver setLang={this.setLang.bind(this)}
+                                         setUserId={this.setUserId.bind(this)}
+                                         setCondition={this.setCondition.bind(this)}
+                                         {...props} />}
+                        />
+                        <Route exact path={'/error'} render={()=><Error lang={this.state.lang}/>}/>
                     </Router>
                 </ErrorBoundary>
             </div>
@@ -132,5 +147,9 @@ class App extends Component {
     }
 }
 
-
 export default App;
+
+
+const Error = ({lang}) => {
+    return(<div className={"error"}>{i10n("misc.landing.error.title", lang)}</div>)
+}

@@ -4,7 +4,7 @@ class Countdown extends Component {
     state = {
         timerOn: false,
         // timerTime: 600000, // seconds to countdown in milliseconds
-        timerTime: 100000, // seconds to countdown in milliseconds
+        timerTime: 10000, // seconds to countdown in milliseconds
         timerStart: 0,
         refreshMillis: 500
     };
