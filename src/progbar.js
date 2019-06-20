@@ -5,6 +5,17 @@ import {i10n} from "./i10n";
 
 class Progbar extends React.Component {
     render() {
+        const numSkippedCell = this.props.numSkipped!==null?                         <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
+                            <div className={"thanker-progress-numthanked"}>
+                                {i10n("thanker.tool.progress.1", this.props.lang, this.props.numThanksSent )}
+                            </div>
+                        </Cell>: <div></div>
+        const numThanksCell = this.props.numThanksSent!==null ?                        <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
+                            <div className={"thanker-progress-numskipped"}>
+                                {i10n("thanker.tool.progress.2", this.props.lang, this.props.numSkipped)}
+
+                            </div>
+                        </Cell>: <div></div>
         return (
             <div className={"thanker-progress"}>
                 <LinearProgress
@@ -18,18 +29,8 @@ class Progbar extends React.Component {
                                 {i10n("thanker.tool.progress", this.props.lang, )}
                             </div>
                         </Cell>
-                        <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
-                            <div className={"thanker-progress-numthanked"}>
-                                {i10n("thanker.tool.progress.1", this.props.lang, this.props.numThanksSent )}
-
-                            </div>
-                        </Cell>
-                        <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
-                            <div className={"thanker-progress-numskipped"}>
-                                {i10n("thanker.tool.progress.2", this.props.lang, this.props.numSkipped)}
-
-                            </div>
-                        </Cell>
+                        {numSkippedCell}
+                        {numThanksCell}
                     </Row>
                 </Grid>
             </div>
