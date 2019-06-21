@@ -1,41 +1,26 @@
 import React, {Component} from 'react';
 import {Redirect} from "react-router-dom";
+import {getInitialData} from "./api";
 
 
 class URLreceiver extends Component {
-    constructor(props) {
-        super(props);
-        this.state={condition:null}
-    }
     componentWillMount() {
-        const {setLang, setUserId, setCondition, match: {params}} = this.props;
-        console.log('params', params)
-        setLang(params.lang)
-        setUserId(params.userId)
-        setCondition(params.condition)
-        this.setState({condition: params.condition})
+        const {setInitialData, match: {params}} = this.props;
+        // get live data
+        getInitialData(params.lang, params.userId, setInitialData);
     }
 
     render() {
-        let nextPath = ''
-        console.log('condition is,', this.state.condition)
-        switch (this.state.condition) {
-            case 't':
-                nextPath = '/thanker'
-                break
-            case 'a':
-                nextPath = '/activity'
-                break
+        switch (this.props.condition) {
+            case 'thank':
+                return <Redirect to={{pathname: '/thanker'}}/>
+            case 'activity':
+                return <Redirect to={{pathname: '/activity'}}/>
+            case null:
+                return <div>Loading...</div>
             default:
-                nextPath = '/error'
-                break
+                return <Redirect to={{pathname: '/error'}}/>
         }
-
-        return (<Redirect
-            to={{
-                pathname: nextPath,
-            }}
-        />)
     }
 }
 

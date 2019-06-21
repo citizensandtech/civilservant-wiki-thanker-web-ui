@@ -12,9 +12,9 @@ export function skipThanks(revId, lang, userId) {
 
 // Receiving Functions
 
-export function getInitialData(cb){
+export function getInitialData(lang, userId, cb){
     //get the first metadata and first two items
-    fetch("https://wikithankerapi.civilservant.io/api/getInitialData").then(function(response){
+    fetch(`https://wikithankerapi.civilservant.io/api/getInitialData`).then(function(response){
         response.json().then(function(data){
             console.log('in user data, data is:', data)
             cb(data)});

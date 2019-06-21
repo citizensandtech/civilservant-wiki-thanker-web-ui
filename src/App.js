@@ -36,12 +36,24 @@ class App extends Component {
             config: config,
             lang: 'en',
             userId: null,
-            appPhase: "intro",
             condition: null,
+            isSuperThanker: null,
+            appPhase: "intro",
             currProgress: config.startProgAmount,
+            worksetData: [],
+            worksetResults: [],
             numThanksSent: null,
             numSkipped: null
         };
+    }
+
+    appendTask(taskDatum) {
+        console.log("appender called with taskDatum: ", taskDatum)
+        console.log("appender called and stateTask : ", this.state.worksetData)
+        this.state.worksetData.push(taskDatum);
+        this.state.worksetResults.push(null);
+        this.setState({worksetData: this.state.worksetData,
+                       worksetResults: this.state.worksetResults})
     }
 
 
@@ -67,6 +79,10 @@ class App extends Component {
         }
     }
 
+    updateWorksetResults(nextWorksetResults){
+                this.setState({worksetResults: nextWorksetResults});
+    }
+
     updateActivityProgress(timerPercent){
         const currProgress = (1 - config.startProgAmount - config.endProgAmount) * (timerPercent) + config.startProgAmount
         this.setState({currProgress:currProgress})
@@ -81,14 +97,20 @@ class App extends Component {
                         numSkipped:numSkipped})
     }
 
-    setLang(lang){
-        this.setState({lang:lang})
-    }
-    setUserId(userId){
-        this.setState({userId:userId})
-    }
-    setCondition(condition){
-        this.setState({condition:condition})
+    setInitialData(initialAPIData) {
+        const initialMetadata = initialAPIData.metadata
+        const initialTaskData = initialAPIData.taskData
+        this.setState({
+            lang: initialMetadata.lang,
+            condition: initialMetadata.condition,
+            isSuperThanker: initialMetadata.isSuperThanker
+        })
+
+
+        this.setState({
+            worksetData: initialTaskData,
+            worksetResults: Array(initialTaskData.length).fill(null)
+        })
     }
 
     notifyManySkips() {
@@ -129,14 +151,19 @@ class App extends Component {
                                       updateThankerProgress={this.updateThankerProgress.bind(this)}
                                       notifyThankSent={this.notifyThankSent}
                                       notifyManySkips={this.notifyManySkips}
-                                      setLang={this.setLang.bind(this)}
+                                      worksetData={this.state.worksetData}
+                                      worksetResults={this.state.worksetResults}
+                                      isSuperThanker={this.state.isSuperThanker}
+                                      lang={this.state.lang}
+                                      userId={this.state.userId}
+                                      appendTask={this.appendTask.bind(this)}
+                                      updateWorksetResults={this.updateWorksetResults.bind(this)}
                             />}
                         />
 
                         <Route path="/initiate/:lang/:userId/" render={(props) =>
-                            <URLreceiver setLang={this.setLang.bind(this)}
-                                         setUserId={this.setUserId.bind(this)}
-                                         setCondition={this.setCondition.bind(this)}
+                            <URLreceiver setInitialData={this.setInitialData.bind(this)}
+                                         condition={this.state.condition}
                                          {...props} />}
                         />
                         <Route exact path={'/error'} render={()=><Error lang={this.state.lang}/>}/>
