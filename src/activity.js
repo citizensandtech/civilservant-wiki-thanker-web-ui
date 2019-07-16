@@ -11,7 +11,6 @@ import {i10n} from './i10n';
 import Countdown from "./countdown";
 import Tro from "./intro";
 import {Cell, Grid, Row} from "@material/react-layout-grid/dist/index";
-import {getInitialData} from "./api";
 
 function getRandomSubarray(arr, size) {
     var shuffled = arr.slice(0), i = arr.length, temp, index;
@@ -51,41 +50,44 @@ class Activity extends Component {
             "activity.tool.activity.5",
             "activity.tool.activity.6",
             "activity.tool.activity.7",
-            "activity.tool.activity.8"]
-        const random_activities = getRandomSubarray(activites, nmany)
+            "activity.tool.activity.8"];
+        const random_activities = getRandomSubarray(activites, nmany);
         const random_activities_li = random_activities.map((act, ind) => (
-            <li key={ind}>{i10n(act, this.props.lang)}</li>))
+            <li key={ind}>{i10n(act, this.props.lang)}</li>));
         return <ul>{random_activities_li}</ul>
     }
 
 
     render_activity() {
         const completerButton = <Button raised className='activity-complete-button' disabled={!this.state.timerComplete}
-                                     onClick={() => this.props.sendActivityDone()}>
-                                  "activity.complete.button"
-                                </Button>
+                                        onClick={() => this.props.sendActivityDone()}>
+            {i10n("activity.tool.confirm.button", this.props.lang)}
+        </Button>;
         const starterButton = <Button raised className='activity-start-button'
-                                        onClick={() => this.startTimer() }>
-                                    {i10n("activity.tool.timer.start", this.props.lang )}
-                                <MaterialIcon icon={'start'}/>
-                                    </Button>
-        const countdownTimer =    <Countdown timerStarted={this.state.timerStarted}
-                                       timerCompleteCB={this.completeTimer.bind(this)}
-                                             updateActivityProgress={this.props.updateActivityProgress}
-                                    />
-        const countdownHeaderUncomplete = <h2 className={"activity-complete-header"}>
-                                    {i10n("activity.tool.timer.end", this.props.lang)}</h2>
-        const countdownHeaderComplete = <h2 className={"activity-complete-completed-text"}>
-                                    {i10n("activity.tool.timer.end", this.props.lang)}</h2>
+                                      onClick={() => this.startTimer()}
+        trailingIcon={<MaterialIcon icon={'start'}/>}>
+            {i10n("activity.tool.timer.start", this.props.lang)}
 
-        const countdownHeader = this.state.timerComplete? countdownHeaderComplete: countdownHeaderUncomplete
-        const actionButton = this.state.timerStarted? completerButton: starterButton
+        </Button>;
+        const countdownTimer = <Countdown timerStarted={this.state.timerStarted}
+                                          timerCompleteCB={this.completeTimer.bind(this)}
+                                          updateActivityProgress={this.props.updateActivityProgress}
+                                          timerTitle={i10n("activity.time.timer", this.props.lang)}
+                                          timerRemaining={i10n("activity.time.remaining", this.props.lang)}
+        />;
+        const countdownHeaderUncomplete = <h2 className={"activity-complete-header"}>
+            {i10n("activity.tool.timer.start", this.props.lang)}</h2>;
+        const countdownHeaderComplete = <h2 className={"activity-complete-completed-text"}>
+            {i10n("activity.tool.timer.end", this.props.lang)}</h2>;
+
+        const countdownHeader = this.state.timerComplete ? countdownHeaderComplete : countdownHeaderUncomplete;
+        const actionButton = this.state.timerStarted ? completerButton : starterButton;
         return (
             <Grid>
                 <Row>
                     <Cell desktopColumns={6} tabletColumns={10} phoneColumns={8}>
                         <Card>
-                            <h2>{"Instructions"}</h2>
+                            <h2>{i10n("misc.instructions", this.props.lang)}</h2>
                             <CardPrimaryContent>
                                 {i10n("activity.tool.instructions", this.props.lang)}
                                 {i10n("activity.tool.three.random", this.props.lang)}
@@ -116,19 +118,19 @@ class Activity extends Component {
                 return (<Tro tro={"intro"} nextPhase={this.props.nextPhase}
                              next={i10n("activity.landing.next.button", this.props.lang)}
                              title={i10n("activity.landing.title", this.props.lang)}
-                             body={i10n("activity.landing.body", this.props.lang)}>
-                </Tro>)
-                break
+                             body={i10n("activity.landing.body", this.props.lang)}
+                             rtl={this.props.rtl} />);
             case "tasks":
-                return this.render_activity()
-                break
+                window.scroll(0, 0);
+                return this.render_activity();
             case "outro":
-                return (<Tro tro={"outro"}
+                const nextText = this.props.loggedOut ? null : i10n("oauth.logout.button", this.props.lang);
+                return (<Tro tro={"outro"} nextPhase={this.props.logOutUser}
+                             next={nextText}
                              title={i10n("thanker.end.title", this.props.lang)}
-                             body={i10n("thanker.end.body", this.props.lang)}>
-                </Tro>)
-                break
-
+                             body={i10n("thanker.end.body", this.props.lang)}
+                             rtl={this.props.rtl} />);
+            default:
         }
     }
 }

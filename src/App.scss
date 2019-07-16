@@ -1,17 +1,62 @@
 @import "@material/react-button/index.scss";
+@import '@material/react-card/index.scss';
 @import "./react-button-overrides";
 
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-//.cs-wiki-diff{
-//  max-width: 800pt;
-//}
+:root{
+  --proj-primary: #44948e;
+  --mdc-theme-primary: #44948e;
+  --proj-secondary: #abc18e;
+  --mdc-theme-secondary: #abc18e;
+  --proj-tertiary: #2c6442;
+  --proj-catenary: #6cb4ac;
+  --proj-quinetrary: #462802;
+}
+
+
+
+.container-rtl {
+  direction: rtl;
+}
+
+.button-alternate{
+  background-color: var(--proj-catenary) !important;
+  &-skip{
+    background-color: var(--proj-quinetrary) !important;
+  }
+}
 
 .DiffConsideration {
-  //border: 0.5pt solid black;
+  border: 0.5pt solid var(--proj-secondary);
 }
-
 
 .DiffConsiderationList {
-  //border: 1pt solid black;
+  border: 1pt solid var(--proj-tertiary);
 }
+
+.thanker-progress{
+  background-color: rgba(1,1,1,0.1);
+}
+
+.display-linebreak {
+  white-space: pre-line;
+}
+
+.interactable-container{
+  max-width: 110em;
+  margin: auto;
+  padding: 1em 2em;
+}
+
+.mdc-card{
+  padding: 1em;
+}
+
+.extra-toasty{
+  padding: 3em;
+  &-progress{
+    background: var(--proj-primary) !important;
+  }
+}
+

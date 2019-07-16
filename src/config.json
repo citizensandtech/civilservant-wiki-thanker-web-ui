@@ -1,3 +1,4 @@
 {"tasksPerUser":4,
+  "tasksPerUserSuper":20,
  "startProgAmount":0.2,
  "endProgAmount":0.1}

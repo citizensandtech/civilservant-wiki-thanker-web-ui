@@ -8,20 +8,21 @@ import Card, {
 import MaterialIcon from '@material/react-material-icon'
 
 
-
 class Tro extends Component {
     render() {
-        const action =  this.props.next? <Button raised className='button-alternate-skip' onClick={() => this.props.nextPhase()}>
-                                                        {this.props.next}
-                                                        <MaterialIcon icon='skip_next'/> </Button>:
-                                                    <MaterialIcon icon='stop'/>;
+        const skipIcon = this.props.rtl ? <MaterialIcon icon='skip_previous'/> : <MaterialIcon icon='skip_next'/>;
+        const action = this.props.next ?
+            <Button raised className='button-alternate-skip' onClick={() => this.props.nextPhase()} trailingIcon={skipIcon}>
+                {this.props.next}
+            </Button> :
+            <MaterialIcon icon='stop'/>;
         return (
             <div className="cs-thanker-intro">
                 <Card>
                     <h2 align="center">{this.props.title}</h2>
                     <CardPrimaryContent>
                         <div className="cs-thanker-intro-para">
-                            <p>{this.props.body}</p>
+                            {this.props.body}
                         </div>
                     </CardPrimaryContent>
                     <CardActions>
@@ -31,10 +32,9 @@ class Tro extends Component {
                     </CardActions>
                 </Card>
             </div>
-            )
+        )
     }
 }
-
 
 
 export default Tro

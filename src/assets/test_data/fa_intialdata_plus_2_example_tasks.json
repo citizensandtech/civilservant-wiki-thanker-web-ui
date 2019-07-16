@@ -1,10 +1,12 @@
 {
   "metadata": {
-    "lang": "pl",
-    "isSuperThanker": false,
+    "lang": "fa",
+    "isSuperThanker": true,
     "userId": 123,
-    "userName": "secondPolishUser",
-    "condition": "thank"
+    "userName": "اردک بد بو",
+    "condition": "thank",
+    "numSkipped": 10,
+    "numThanksSent": 10
   },
   "taskData": [
     [

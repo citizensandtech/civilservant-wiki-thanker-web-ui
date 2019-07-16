@@ -1,17 +1,9 @@
 import React, {Component} from 'react';
 import {i10n} from "./i10n";
-import {getInitialData, getSingleTaskDatum, sendThanks, skipThanks} from "./api";
+import {getSingleTaskDatum, sendThanks, skipThanks} from "./api";
 import {Cell, Grid, Row} from "@material/react-layout-grid/dist/index";
 import ThankerTask from "./wiki-diff";
 import Tro from "./intro";
-
-import fetchMock from "fetch-mock";
-
-import exampleInitialData from './assets/test_data/pl_intialdata_plus_2_example_tasks'
-import exampleNextTask from './assets/test_data/pl_1_example_next_task'
-
-fetchMock.get("https://wikithankerapi.civilservant.io/api/userData", exampleNextTask);
-fetchMock.get("https://wikithankerapi.civilservant.io/api/getInitialData", exampleInitialData);
 
 class Thanking extends Component {
     constructor(props) {
@@ -31,68 +23,83 @@ class Thanking extends Component {
 
     getNumThanksSent() {
         const thanks = this.props.worksetResults.filter(res => typeof(res) === "number")
-        return thanks.length
+        return thanks.length + this.props.prevNumThanksSent;
     }
 
     getNumSkipped() {
-        const skips = this.props.worksetResults.filter(res => res === "skip")
-        return skips.length
+        const skips = this.props.worksetResults.filter(res => res === "skip");
+        return skips.length + this.props.prevNumSkipped;
     }
 
 
+    skipCB = () => {
+        let nextWorksetResults = this.props.worksetResults;
+        nextWorksetResults[this.getCurrTaskPos()] = 'skip';
+        this.props.updateWorksetResults(nextWorksetResults);
+        this.nextTask();
+        const numSkipped = this.getNumSkipped();
+        if (numSkipped % 3 === 0) {
+            this.props.notifyManySkips(numSkipped)
+        }
+    };
 
     skipAndNext(thankeeId) {
-        console.log("skipping taskId, ", thankeeId);
-        skipThanks(thankeeId, this.props.lang, this.props.userId);
-        let nextWorksetResults = this.props.worksetResults
-        nextWorksetResults[this.getCurrTaskPos()] = 'skip';
-        this.props.updateWorksetResults(nextWorksetResults)
-        const numSkipped = this.getNumSkipped()
-        if (numSkipped % 3 === 0) {
-            this.props.notifyManySkips()
-        }
-        this.nextTask();
+        // console.log('in skip and next and thankee id is', thankeeId);
+        skipThanks(thankeeId, this.props.lang, this.props.userId, this.skipCB)
+
+
     }
 
-    sendAndNext(revId) {
-        sendThanks(revId, this.props.lang, this.props.userId);
-        let nextWorksetResults = this.props.worksetResults
+    sendCB = (revId) => {
+        let nextWorksetResults = this.props.worksetResults;
         nextWorksetResults[this.getCurrTaskPos()] = revId;
-        this.props.updateWorksetResults(nextWorksetResults)
-        console.log("workResults are after updating: ", this.props.worksetResults);
+        this.props.updateWorksetResults(nextWorksetResults);
         this.props.notifyThankSent();
+        const numThanksSent = this.getNumThanksSent();
+        if ((numThanksSent % 10 === 0) & (this.props.isSuperThanker)) {
+            this.props.notifySuperThankerProg(numThanksSent)
+        }
         this.nextTask()
+    };
+
+    sendAndNext(revId) {
+        sendThanks(this.props.lang, revId, this.props.userId, this.sendCB);
     }
 
 
     nextTask() {
-        this.props.updateThankerProgress(this.getNumThanksSent(), this.getNumSkipped())
+        this.props.updateThankerProgress(this.getNumThanksSent(), this.getNumSkipped());
         // check if we are at the end
-        if (this.getNumThanksSent() === 4 && !this.props.isSuperThanker ) { //-1 to account for 0 indexing
+        if (this.getNumThanksSent() === 4 && !this.props.isSuperThanker) { //-1 to account for 0 indexing
             this.props.nextPhase()
         } else {
-            getSingleTaskDatum(this.props.appendTask)
-            window.scrollTo(0,0)
+            getSingleTaskDatum(this.props.lang, this.props.userId, this.props.appendTask);
+            window.scrollTo(0, 0)
         }
     }
 
 
-
     render_task() {
-        const currTaskPos = this.getCurrTaskPos()
-
+        const currTaskPos = this.getCurrTaskPos();
         const currDiffObjs = this.props.worksetData[currTaskPos];
-
+        console.log("currTaskPos is, ", currTaskPos)
+        console.log("currDiffObjs are:, ", currDiffObjs)
+        const instructions = this.props.isSuperThanker? i10n("superthanker.landing.instructions",this.props.lang):
+        i10n("thanker.tool.instructions",this.props.lang);
         return (
             <Grid>
                 <Row>
                     <Cell columns={12}>
+                        <div className="thanker-task-instructions">
+                            {instructions}
+                        </div>
                         <ThankerTask diffObjs={currDiffObjs}
                                      sendAndNext={this.sendAndNext.bind(this)}
                                      skipAndNext={this.skipAndNext.bind(this)}
                                      numThanksSent={this.getNumThanksSent()}
                                      numSkipped={this.getNumSkipped()}
-
+                                     rtl={this.props.rtl}
+                                     lang={this.props.lang}
                         >
                         </ThankerTask>
                     </Cell>
@@ -101,54 +108,53 @@ class Thanking extends Component {
         );
     }
 
-    zeroThankerProgress(){
-        this.props.updateThankerProgress(0,0)
-    }
 
     render_intro() {
+        const title = this.props.isSuperThanker ? i10n("superthanker.landing.title", this.props.lang):
+            i10n("thanker.landing.title", this.props.lang)
+        const body = this.props.isSuperThanker ? <div>{i10n("superthanker.landing.greeting", this.props.lang)} <br/> {i10n("superthanker.landing.instructions.2", this.props.lang)}</div> :
+            i10n("thanker.landing.body", this.props.lang)
         return (
-            <Tro tro={"intro"} nextPhase={() =>(this.zeroThankerProgress.bind(this)(), this.props.nextPhase())}
+            <Tro tro={"intro"} nextPhase={() => {this.props.nextPhase()}}
                  next={i10n("thanker.landing.next.button", this.props.lang)}
-                 title={i10n("thanker.landing.title", this.props.lang)}
-                 body={i10n("thanker.landing.body", this.props.lang)}
+                 title={title}
+                 body={body}
+                 rtl={this.props.rtl} />
+        )
+    }
+
+    render_outro() {
+        const nextText = this.props.loggedOut ? null : i10n("oauth.logout", this.props.lang);
+        return (
+            <Tro tro={"outro"}
+                 next={nextText} nextPhase={this.props.logOutUser}
+                 title={i10n("thanker.end.title", this.props.lang)}
+                 body={i10n("thanker.end.body", this.props.lang)}
+                 rtl={this.props.rtl}
             >
             </Tro>
         )
     }
 
-    render_outro() {
-        return (
-            <Tro tro={"outro"}
-                 title={i10n("thanker.end.title", this.props.lang)}
-                 body={i10n("thanker.end.body", this.props.lang)}>
-            </Tro>
-        )
-    }
-
     render() {
-        console.log('in thanking render and wsd ', this.props.worksetData)
-        console.log('in thanking render and wsr', this.props.worksetResults)
+        // console.log('in thanking render and wsd ', this.props.worksetData);
+        // console.log('in thanking render and wsr', this.props.worksetResults);
+        // console.log('in thanking render and prns', this.props.prevNumThanksSent);
         switch (this.props.appPhase) {
             case "intro":
                 console.log("rendering ", this.props.appPhase);
                 return this.render_intro();
-                break;
             case "tasks":
                 console.log("rendering ", this.props.appPhase);
                 return this.render_task();
-                break;
             case "activity":
                 console.log("rendering ", this.props.appPhase);
                 return this.render_activity();
-                break;
             case "outro":
                 console.log("rendering ", this.props.appPhase);
                 return this.render_outro();
-                break
             default:
                 return this.render_intro();
-                break;
-
         }
     }
 }

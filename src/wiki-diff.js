@@ -8,7 +8,7 @@ import Card, {
 } from "@material/react-card";
 import MaterialIcon from '@material/react-material-icon'
 import talkSmileyLtr from './assets/img/talksmileyltr.svg';
-// import talkSmileyRtl from './assets/img/talksmileyrtl.svg';
+import talkSmileyRtl from './assets/img/talksmileyrtl.svg';
 
 import {Cell, Grid, Row} from '@material/react-layout-grid';
 import {i10n} from "./i10n";
@@ -83,7 +83,7 @@ class DiffConsideration extends Component {
         return (
             <Cell desktopColumns={6} phoneColumns={12} tabletColumns={12}>
                 <Card>
-                    <h2 align="center">{i10n("thanker.tool.diff.title", this.props.lang, `${this.props.cardId+1}`)}</h2>
+                    <h2 align="center">{i10n("thanker.tool.diff.title", this.props.lang, `${this.props.cardId + 1}`)}</h2>
                     <CardPrimaryContent>
                         <WikiDiff diffObj={this.props.diffObj}>
                         </WikiDiff>
@@ -92,10 +92,11 @@ class DiffConsideration extends Component {
                         <CardActionButtons>
                             <Button
                                 raised className='button-alternate' onClick={() => {
-                                this.props.sendAndNext(5)
-                            }}>
-                                {i10n("thanker.tool.thank.button")}
-                                <img src={talkSmileyLtr} alt="thank icon"/>
+                                this.props.sendAndNext(this.props.diffObj.newRevId)} }
+                                trailingIcon={<img src={this.props.rtl ? talkSmileyRtl : talkSmileyLtr}
+                                                   alt="thank icon"/>}
+                            >
+                                {i10n("thanker.tool.thank.button", this.props.lang)}
                             </Button>
                         </CardActionButtons>
                     </CardActions>
@@ -115,7 +116,9 @@ class DiffConsiderationList extends Component {
                     diffObj={diffObj}
                     key={index}
                     cardId={index}
-                    sendAndNext={sendAndNext}/>);
+                    sendAndNext={sendAndNext}
+                    lang={this.props.lang}
+                    rtl={this.props.rtl}/>);
             return (<Grid>
                 <Row>
                     {DiffConsiderations}
@@ -131,28 +134,27 @@ class DiffConsiderationList extends Component {
 class ThankerTask extends Component {
     makeSkipButton(numSkipped) {
         const skipMessage = numSkipped < 3 ?
-            <div className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, numSkipped)} </div>:
-            <div className="thanker-task-skip-instructions-extra"> {i10n("thanker.tool.skip.manyskips")} </div>
+            <div
+                className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, numSkipped)} </div> :
+            <div
+                className="thanker-task-skip-instructions-extra"> {i10n("thanker.tool.skip.manyskips", this.props.lang)} </div>;
+        const thankeeId = this.props.diffObjs[0].newRevUser;
         return <div className="thanker-task-skip">
             {skipMessage}
-            <Button
-                raised className='button-alternate-skip' onClick={() => this.props.skipAndNext()}>
-                {i10n("thanker.tool.skip.button")}
-                <MaterialIcon icon='skip_next'/>
-                {/*<MaterialIcon icon='arrow_right_alt'/>*/}
-                {/*<MaterialIcon icon='arrow_forward'/>*/}
-                {/*<MaterialIcon icon='arrow_forward_ios'/>*/}
-                {/*<MaterialIcon icon='arrow_right'/>*/}
-                {/*<MaterialIcon icon='chevron_right'/>*/}
+            <Button raised className='button-alternate-skip' onClick={() => this.props.skipAndNext(thankeeId)}
+                    trailingIcon={this.props.rtl ? <MaterialIcon icon='skip_previous'/> :
+                        <MaterialIcon icon='skip_next'/>}>
+                {i10n("thanker.tool.skip.button", this.props.lang)}
             </Button>
         </div>
     }
 
     render() {
         return (<div className="thanker-task">
-            <div className="thanker-task-instructions">{i10n("thanker.tool.instructions")}</div>
             <DiffConsiderationList sendAndNext={this.props.sendAndNext}
-                                   diffObjs={this.props.diffObjs}/>
+                                   diffObjs={this.props.diffObjs}
+                                   lang={this.props.lang}
+                                   rtl={this.props.rtl}/>
             {this.makeSkipButton(this.props.numSkipped)}
         </div>)
     }

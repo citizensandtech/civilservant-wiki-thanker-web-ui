@@ -1,44 +1,113 @@
 // Sending Functions
+import fetch from 'fetch-retry'
+import {toast} from 'react-toastify'
 
-export function sendThanks(thankeeId, revId, lang) {
-    // alert(`would now be sending thanks to ${revId} on lang ${lang} from user ${userId}`);
-    return true
+import fetchMock from "fetch-mock";
+
+import exampleInitialData from './assets/test_data/pl_intialdata_plus_2_example_tasks'
+import exampleInitialDataFA from './assets/test_data/fa_intialdata_plus_2_example_tasks'
+import exampleInitialDataActivity from './assets/test_data/pl_intialdata_plus_activity'
+import exampleInitialDataActivityFA from './assets/test_data/fa_intialdata_plus_activity'
+import exampleNextTask from './assets/test_data/pl_1_example_next_task'
+
+
+
+console.log(`Process.env.PUBLIC_URL is ${process.env.PUBLIC_URL}.`)
+if (process.env.PUBLIC_URL === ""){
+    import('fetch-mock').then( () =>
+    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/next/*", exampleNextTask),
+    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data", exampleInitialData),
+    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/123", exampleInitialData),
+    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/123", exampleInitialDataFA),
+    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/456", exampleInitialDataActivity),
+    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/456", exampleInitialDataActivityFA),
+    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/789", 401),
+    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
+    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
+    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/activityComplete/*", {'success': true}),
+    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/logout/*", {'success': true}),
+    )
 }
 
-export function skipThanks(revId, lang, userId) {
-    // alert(`would now be skipping thanks to ${revId} on lang ${lang} from user ${userId}`);
-    return true
-}
 
-// Receiving Functions
+const apiHost = "https://studies.civilservant.io/5qop/api";
+const contactEmail = 'max.klein@civilservant.io';
 
-export function getInitialData(lang, userId, cb){
-    //get the first metadata and first two items
-    fetch(`https://wikithankerapi.civilservant.io/api/getInitialData`).then(function(response){
-        response.json().then(function(data){
-            console.log('in user data, data is:', data)
-            cb(data)});
-    })
-}
 
-export function getNewTask(cb){
-    getSingleTaskDatum('test_data/pl_451404.json', cb)
+function handleErrors(response, props) {
+    if (!response.ok) {
+        // throw Error(response.statusText);
+        console.log(`Response error is :`, response)
+        if (response.status===401){
+            console.log("Got a 401 error. Prop  s are:", props)
+            window.location = `${props.serverSubDir}/splash/`
+        }
+        toast.error(`There was a network error, please try again in a few seconds. `, {autoClose:6000})
     }
+    return response;
+}
 
-export function getSingleTaskDatum(cb){
-    // gets data about the users to be thanked, called once at the beginning
-    fetch("https://wikithankerapi.civilservant.io/api/userData").then(function(response){
-        response.json().then(function(data){
-            console.log('in user data, data is:', data)
-            cb(data)});
+export function getSingleTaskDatum(lang, userId, cb) {
+    // get a next item to add to the queue
+    console.log(`would be making call to ${apiHost}/task/next/${lang}/${userId}`)
+    fetch(`${apiHost}/task/next/${lang}/${userId}`).then(handleErrors).then(function (response) {
+        response.json().then(function (data) {
+            console.log('in user data, data is:', data);
+            cb(data)
+        });
     })
 }
 
-export function sendActivityComplete(lang, userId){
-    // tells the back end
-    fetch(`https://wikithankerapi.civilservant.io/api/activityComplete/${lang}/${userId}`)
+export function getInitialData(lang, userId, cb, props) {
+    //get the first metadata and first two items
+    fetch(`${apiHost}/initial-data/${lang}/${userId}`).then((response) => handleErrors(response, props)).then(function (response) {
+        response.json().then(function (data) {
+            // console.log('in user data, data is:', data);
+            cb(data)
+        });
+    })
 }
 
+export function sendThanks(lang, revId, thankingUserId, cb) {
+    fetch(`${apiHost}/diff/thank/${lang}/${revId}/${thankingUserId}`).then(handleErrors).then(function (response) {
+        response.json().then(function(data){
+            if (data.success){cb(revId)}
+            else {toast.error(`Please email ${contactEmail} about this error: ${data.error}. \n\n 
+            Context: sendThanks. lang:${lang}. revId:${revId}, thankingUserId:${thankingUserId}`,
+                {autoClose:false, closeOnClick:false, draggable:false})}
+        })
+    })
+}
+
+export function skipThanks(lang, thankeeUserId, thankingUserId, cb) {
+    fetch(`${apiHost}/task/skip/${lang}/${thankeeUserId}/${thankingUserId}`).then(handleErrors).then(function (response) {
+        response.json().then(function (data) {
+            if (data.success){cb()}
+            else {toast.error(`Please email ${contactEmail} about this error: ${data.error}. 
+            Context: skipThanks. lang:${lang}. thankeeUserId${thankeeUserId}, thankingUserId${thankingUserId}`,
+                {autoClose:false, closeOnClick:false, draggable:false})}
+            cb()
+        })
+    })
+}
+
+
+export function logOut(lang, userId, cb) {
+    fetch(`${apiHost}/logout/${lang}/${userId}`).then(handleErrors).then(function (response) {
+        console.log("signed out user");
+        cb()
+    })
+}
+
+
+export function sendActivityComplete(lang, userId, cb) {
+    // tells the back end
+    fetch(`${apiHost}/activityComplete/${lang}/${userId}`).then(handleErrors).then(function (response) {
+        response.json().then(function (data) {
+            cb(data);
+        })
+    })
+}
 
 
 //TODO: fill this out via the contracts described here: https://docs.google.com/document/d/1ysvqJ9XO4jg8bOIazmh-ZHy95b5O1c8eevu1nh_dC6k/edit
