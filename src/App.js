@@ -53,6 +53,10 @@ class App extends Component {
         };
     }
 
+    componentDidMount(){
+    document.title = "CivilServant Wikipedia Study"
+    }
+
     appendTask(taskDatum) {
         // console.log("appender called with taskDatum: ", taskDatum);
         // console.log("appender called and stateTask : ", this.state.worksetData);

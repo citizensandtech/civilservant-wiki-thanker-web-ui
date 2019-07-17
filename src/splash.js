@@ -5,34 +5,37 @@ import Card, {CardActionButtons, CardActions, CardPrimaryContent} from "@materia
 import {Button} from "@material/react-button/dist/index";
 
 
-class Splash extends Component{
-    render (){
-        const {match: {params}} = this.props;
-        const lang = "lang" in params ? params.lang :'en';
-        console.log('Splash is using lang: ', lang)
-        return(
-            <div className={"splash-container"} dir={['ar','fa'].indexOf(lang)>0? 'rtl':'ltr'}>
-            <Grid>
-                <Row>
-                    <Cell desktopColumns={6} tabletColumns={4} phoneColumns={4}>
-                        <Card>
-                            <h2 className={"splash-title"}>{i10n("activity.landing.title", lang)}</h2>
-                            <CardPrimaryContent>
-                            </CardPrimaryContent>
-                                <CardActions>
-                                <CardActionButtons>
-                                    <Button href={"https://studies.civilservant.io/5qop/api/login"} raised
-                                            className='login-with-mediawiki'>
-                                         {i10n("oauth.login.with", lang)}
-                                    </Button>
-                                </CardActionButtons>
-                            </CardActions>
+class Splash extends Component {
 
-                        </Card>
-                    </Cell>
-                </Row>
-            </Grid>
-                </div>
+
+    render() {
+        const {match: {params}} = this.props;
+        const langs = "lang" in params ? [params.lang] : ["en", "ar", "fa", 'de', "pl"];
+        const loginCards = langs.map((lang, index) =>
+            <Cell desktopColumns={4} phoneColumns={12} tabletColumns={12}>
+            <Card align={"center"} key={index}>
+                <h2 className={"splash-title"}>{i10n("misc.langname", lang)}</h2>
+                <CardPrimaryContent>
+                    <div className={"splash-title"}>{"CivilServant Wikipedia Study"}</div>
+                </CardPrimaryContent>
+                <CardActions>
+                    <CardActionButtons>
+                        <Button href={`https://studies.civilservant.io/5qop/api/login/${lang}`} raised
+                                className='login-with-mediawiki'>
+                            {i10n("oauth.login.with", lang)}
+                        </Button>
+                    </CardActionButtons>
+                </CardActions>
+            </Card>
+            </Cell>)
+        return (
+            <div className={"splash-container"} dir={['ar', 'fa'].indexOf(langs[0]) > 0 ? 'rtl' : 'ltr'}>
+                <Grid>
+                    <Row>
+                        {loginCards}
+                    </Row>
+                </Grid>
+            </div>
         )
     }
 }
