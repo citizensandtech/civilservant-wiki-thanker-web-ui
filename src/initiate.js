@@ -7,6 +7,7 @@ class URLreceiver extends Component {
     componentWillMount() {
         const {setInitialData, match: {params}} = this.props;
         // get live data
+        console.log("params.lang params.userId are:", params.lang, params.userId)
         getInitialData(params.lang, params.userId, setInitialData, this.props);
     }
 

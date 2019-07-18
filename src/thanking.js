@@ -68,12 +68,16 @@ class Thanking extends Component {
         sendThanks(this.props.lang, revId, this.props.userId, this.sendCB);
     }
 
+    isWorksetComplete(){
+        return (this.getNumThanksSent() >= 4) && (!this.props.isSuperThanker)
+    }
+
 
     nextTask() {
         console.log("NEXT TASK CB TRIGGERED")
         this.props.updateThankerProgress(this.getNumThanksSent(), this.getNumSkipped());
         // check if we are at the end
-        if (this.getNumThanksSent() >= 4 && !this.props.isSuperThanker) { //-1 to account for 0 indexing
+        if (this.isWorksetComplete()) { //-1 to account for 0 indexing
             this.props.nextPhase()
         } else {
             getSingleTaskDatum(this.props.lang, this.props.userId, this.props.appendTask);
@@ -145,16 +149,17 @@ class Thanking extends Component {
         // console.log('in thanking render and prns', this.props.prevNumThanksSent);
         switch (this.props.appPhase) {
             case "intro":
-                console.log("rendering ", this.props.appPhase);
+                // console.log("rendering ", this.props.appPhase);
                 return this.render_intro();
             case "tasks":
-                console.log("rendering ", this.props.appPhase);
-                return this.render_task();
+                // console.log("rendering ", this.props.appPhase);
+                if (this.isWorksetComplete()){return this.render_outro()}
+                else {return this.render_task();}
             case "activity":
-                console.log("rendering ", this.props.appPhase);
+                // console.log("rendering ", this.props.appPhase);
                 return this.render_activity();
             case "outro":
-                console.log("rendering ", this.props.appPhase);
+                // console.log("rendering ", this.props.appPhase);
                 return this.render_outro();
             default:
                 return this.render_intro();

@@ -14,18 +14,17 @@ import exampleNextTask from './assets/test_data/pl_1_example_next_task'
 
 console.log(`Process.env.PUBLIC_URL is ${process.env.PUBLIC_URL}.`)
 if (process.env.PUBLIC_URL === ""){
-    import('fetch-mock').then( () =>
-    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/next/*", exampleNextTask),
-    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data", exampleInitialData),
-    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/123", exampleInitialData),
-    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/123", exampleInitialDataFA),
-    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/456", exampleInitialDataActivity),
-    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/456", exampleInitialDataActivityFA),
-    fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/789", 401),
-    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
-    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
-    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/activityComplete/*", {'success': true}),
-    fetchMock.get("glob:https://studies.civilservant.io/5qop/api/logout/*", {'success': true}),
+    import('fetch-mock').then( () => fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/next/*", exampleNextTask),
+        fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/123", exampleInitialData),
+        fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/123", exampleInitialDataFA),
+        fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/456", exampleInitialDataActivity),
+        fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/456", exampleInitialDataActivityFA),
+        fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/789", 401),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialData),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/activityComplete/*", {'success': true}),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/logout/*", {'success': true}),
     )
 }
 
@@ -110,7 +109,7 @@ export function logOut(lang, userId, cb) {
 
 export function sendActivityComplete(lang, userId, cb) {
     // tells the back end
-    fetch(`${apiHost}/activityComplete/${lang}/${userId}`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/activityComplete/`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
             cb(data);
         })
