@@ -33,6 +33,7 @@ class Thanking extends Component {
 
 
     skipCB = () => {
+        console.log("SKIP CALLBACK BEING TRIGGERED")
         let nextWorksetResults = this.props.worksetResults;
         nextWorksetResults[this.getCurrTaskPos()] = 'skip';
         this.props.updateWorksetResults(nextWorksetResults);
@@ -45,7 +46,8 @@ class Thanking extends Component {
 
     skipAndNext(thankeeId) {
         // console.log('in skip and next and thankee id is', thankeeId);
-        skipThanks(thankeeId, this.props.lang, this.props.userId, this.skipCB)
+        // lang, thankeeUserId, thankingUserId, cb
+        skipThanks(this.props.lang, thankeeId, this.props.userId, this.skipCB)
 
 
     }
@@ -68,9 +70,10 @@ class Thanking extends Component {
 
 
     nextTask() {
+        console.log("NEXT TASK CB TRIGGERED")
         this.props.updateThankerProgress(this.getNumThanksSent(), this.getNumSkipped());
         // check if we are at the end
-        if (this.getNumThanksSent() === 4 && !this.props.isSuperThanker) { //-1 to account for 0 indexing
+        if (this.getNumThanksSent() >= 4 && !this.props.isSuperThanker) { //-1 to account for 0 indexing
             this.props.nextPhase()
         } else {
             getSingleTaskDatum(this.props.lang, this.props.userId, this.props.appendTask);
@@ -85,7 +88,7 @@ class Thanking extends Component {
         console.log("currTaskPos is, ", currTaskPos)
         console.log("currDiffObjs are:, ", currDiffObjs)
         const instructions = this.props.isSuperThanker? i10n("superthanker.landing.instructions",this.props.lang):
-        i10n("thanker.tool.instructions",this.props.lang);
+                                                        i10n("thanker.tool.instructions",this.props.lang);
         return (
             <Grid>
                 <Row>
@@ -137,8 +140,8 @@ class Thanking extends Component {
     }
 
     render() {
-        // console.log('in thanking render and wsd ', this.props.worksetData);
-        // console.log('in thanking render and wsr', this.props.worksetResults);
+        console.log('in thanking render and wsd ', this.props.worksetData);
+        console.log('in thanking render and wsr', this.props.worksetResults);
         // console.log('in thanking render and prns', this.props.prevNumThanksSent);
         switch (this.props.appPhase) {
             case "intro":

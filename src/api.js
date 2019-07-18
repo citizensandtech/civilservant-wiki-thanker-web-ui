@@ -35,6 +35,9 @@ const contactEmail = 'max.klein@civilservant.io';
 
 
 function handleErrors(response, props) {
+    if (response.ok){
+        console.log("Response was ok and it was: ", response)
+    }
     if (!response.ok) {
         // throw Error(response.statusText);
         console.log(`Response error is :`, response)
@@ -49,18 +52,23 @@ function handleErrors(response, props) {
 
 export function getSingleTaskDatum(lang, userId, cb) {
     // get a next item to add to the queue
-    console.log(`would be making call to ${apiHost}/task/next/${lang}/${userId}`)
-    fetch(`${apiHost}/task/next/${lang}/${userId}`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/task/next/`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
             console.log('in user data, data is:', data);
-            cb(data)
+            if (data.success){
+                cb(data.taskData)
+            }
+            else {
+                // TODO handle this more gracefully
+                console.error("We didn't get a sucessful return")
+            }
         });
     })
 }
 
 export function getInitialData(lang, userId, cb, props) {
     //get the first metadata and first two items
-    fetch(`${apiHost}/initial-data/${lang}/${userId}`).then((response) => handleErrors(response, props)).then(function (response) {
+    fetch(`${apiHost}/initial-data/`).then((response) => handleErrors(response, props)).then(function (response) {
         response.json().then(function (data) {
             // console.log('in user data, data is:', data);
             cb(data)
@@ -69,7 +77,7 @@ export function getInitialData(lang, userId, cb, props) {
 }
 
 export function sendThanks(lang, revId, thankingUserId, cb) {
-    fetch(`${apiHost}/diff/thank/${lang}/${revId}/${thankingUserId}`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/diff/thank/${revId}`).then(handleErrors).then(function (response) {
         response.json().then(function(data){
             if (data.success){cb(revId)}
             else {toast.error(`Please email ${contactEmail} about this error: ${data.error}. \n\n 
@@ -80,20 +88,20 @@ export function sendThanks(lang, revId, thankingUserId, cb) {
 }
 
 export function skipThanks(lang, thankeeUserId, thankingUserId, cb) {
-    fetch(`${apiHost}/task/skip/${lang}/${thankeeUserId}/${thankingUserId}`).then(handleErrors).then(function (response) {
+    console.log("SKIP API CALL BEING MADE")
+    fetch(`${apiHost}/task/skip/${thankeeUserId}`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
             if (data.success){cb()}
             else {toast.error(`Please email ${contactEmail} about this error: ${data.error}. 
             Context: skipThanks. lang:${lang}. thankeeUserId${thankeeUserId}, thankingUserId${thankingUserId}`,
                 {autoClose:false, closeOnClick:false, draggable:false})}
-            cb()
         })
     })
 }
 
 
 export function logOut(lang, userId, cb) {
-    fetch(`${apiHost}/logout/${lang}/${userId}`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/logout/`).then(handleErrors).then(function (response) {
         console.log("signed out user");
         cb()
     })
