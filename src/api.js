@@ -40,6 +40,8 @@ function handleErrors(response, props) {
     if (!response.ok) {
         // throw Error(response.statusText);
         console.log(`Response error is :`, response)
+        toast.error(`Please email ${contactEmail} about this error: Response was not ok. 
+            Context: response status is ${response.status}`,  {autoClose:false, closeOnClick:false, draggable:false})
         if (response.status===401){
             console.log("Got a 401 error. Prop  s are:", props)
             window.location = `${props.serverSubDir}/splash/`
@@ -115,6 +117,3 @@ export function sendActivityComplete(lang, userId, cb) {
         })
     })
 }
-
-
-//TODO: fill this out via the contracts described here: https://docs.google.com/document/d/1ysvqJ9XO4jg8bOIazmh-ZHy95b5O1c8eevu1nh_dC6k/edit
