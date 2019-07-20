@@ -17,7 +17,7 @@ import {i10n} from "./i10n";
 class WikiDiff extends Component {
     render() {
         const rawDiffHTML = this.props.diffObj.diffHTML;
-        const topRows = MakeTitleRow(this.props.diffObj);
+        const topRows = MakeTitleRow(this.props.diffObj, this.props.lang);
         const diffHTML = topRows + rawDiffHTML;
         const innerHTMLObj = {__html: diffHTML};
         const textDir = this.props.diffObj.lang in ['ar', 'fa'] ? 'rtl' : 'ltr';
@@ -51,7 +51,7 @@ class DiffTitle extends Component {
         const revDate = this.props.diffObj[revDateKey];
         const revUser = this.props.diffObj[revUserKey];
         const revComment = this.props.diffObj[revCommentKey];
-        const revLink = "https://" + this.props.diffObj['lang'] + ".wikipedia.org/wiki/?oldid=" + revId;
+        const revLink = "https://" + this.props.lang + ".wikipedia.org/wiki/?oldid=" + revId;
         return (
             <td className={"diff-" + oOrn + "title"} colSpan={2}>
                 <div id={"mw-diff-" + oOrn + "title1"}>
@@ -68,11 +68,11 @@ class DiffTitle extends Component {
 }
 
 
-function MakeTitleRow(diffObj) {
+function MakeTitleRow(diffObj, lang) {
     const titleRow = <tr className="diff-title">
-        <DiffTitle newold="new" diffObj={diffObj}>
+        <DiffTitle newold={"old"} diffObj={diffObj} lang={lang}>
         </DiffTitle>
-        <DiffTitle newold="old" diffObj={diffObj}>
+        <DiffTitle newold={"new"} diffObj={diffObj} lang={lang}>
         </DiffTitle>
     </tr>;
     return ReactDOMServer.renderToStaticMarkup(titleRow)
@@ -85,7 +85,7 @@ class DiffConsideration extends Component {
                 <Card>
                     <h2 align="center">{i10n("thanker.tool.diff.title", this.props.lang, `${this.props.cardId + 1}`)}</h2>
                     <CardPrimaryContent>
-                        <WikiDiff diffObj={this.props.diffObj}>
+                        <WikiDiff diffObj={this.props.diffObj} lang={this.props.lang}>
                         </WikiDiff>
                     </CardPrimaryContent>
                     <CardActions>
@@ -135,7 +135,7 @@ class ThankerTask extends Component {
     makeSkipButton(numSkipped) {
         const skipMessage = numSkipped < 3 ?
             <div
-                className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, numSkipped)} </div> :
+                className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, 4)} </div> :
             <div
                 className="thanker-task-skip-instructions-extra"> {i10n("thanker.tool.skip.manyskips", this.props.lang)} </div>;
         const thankeeId = this.props.diffObjs[0].newRevUser;

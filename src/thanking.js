@@ -131,7 +131,7 @@ class Thanking extends Component {
     }
 
     render_outro() {
-        const nextText = this.props.loggedOut ? null : i10n("oauth.logout", this.props.lang);
+        const nextText = this.props.loggedOut ? null : i10n("oauth.logout.button", this.props.lang);
         return (
             <Tro tro={"outro"}
                  next={nextText} nextPhase={this.props.logOutUser}

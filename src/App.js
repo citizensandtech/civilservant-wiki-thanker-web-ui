@@ -235,7 +235,7 @@ class App extends Component {
                                 />}
                             />
 
-                            <Route path={`${this.state.serverSubDir}/initiate/:lang/:userId/`, `${this.state.serverSubDir}/initiate`} render={(props) =>
+                            <Route path={[`${this.state.serverSubDir}/initiate/:lang/:userId/`, `${this.state.serverSubDir}/initiate`]} render={(props) =>
                                 <URLreceiver setInitialData={this.setInitialData.bind(this)}
                                              condition={this.state.condition}
                                              serverSubDir={this.state.serverSubDir}

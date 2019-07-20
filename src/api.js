@@ -109,7 +109,7 @@ export function logOut(lang, userId, cb) {
 
 export function sendActivityComplete(lang, userId, cb) {
     // tells the back end
-    fetch(`${apiHost}/activityComplete/`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/activity/complete/`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
             cb(data);
         })
