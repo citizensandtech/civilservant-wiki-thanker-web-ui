@@ -16,13 +16,13 @@ class Progbar extends React.Component {
             <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
                 <div className={"thanker-progress-numskipped"}>
                     {i10n("thanker.tool.progress.2", this.props.lang, this.props.numSkipped)}
-
                 </div>
             </Cell> : <div></div>;
 
         const logoutButton = this.props.loggedOut? <div></div>: <Button onClick={()=>this.props.logOutUser()}>
             {i10n("oauth.logout.button", this.props.lang)}
         </Button>;
+        const progLabel = this.props.progress <= 0.2 ? "" : i10n("thanker.tool.progress", this.props.lang);
 
         return (
             <div className={"thanker-progress"}>
@@ -35,7 +35,7 @@ class Progbar extends React.Component {
                     <Row>
                         <Cell desktopColumns={4} phoneColumns={4} tabletColumns={3}>
                             <div className={"thanker-progress-progress"}>
-                                {i10n("thanker.tool.progress", this.props.lang)}
+                                {progLabel}
                                 {this.props.userName? `:\t ${this.props.userName}.`: ""}
                                 {logoutButton}
                             </div>

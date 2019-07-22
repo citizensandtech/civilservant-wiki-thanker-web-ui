@@ -20,11 +20,15 @@ class WikiDiff extends Component {
         const topRows = MakeTitleRow(this.props.diffObj, this.props.lang);
         const diffHTML = topRows + rawDiffHTML;
         const innerHTMLObj = {__html: diffHTML};
-        const textDir = this.props.diffObj.lang in ['ar', 'fa'] ? 'rtl' : 'ltr';
+        const textDir = ['ar', 'fa'].indexOf(this.props.lang) >=0 ? 'rtl' : 'ltr';
+        const diffAlignClassName = textDir === "ltr" ? "diff-contentalign-left" : "diff-contentalign-right";
+        // console.log("textDir ", textDir)
+        // console.log("lang is ", this.props.diffObj.lang, this.props.lang)
+        // console.log("diff align class", diffAlignClassName)
         return <div className={"cs-wiki-diff " + textDir + " sitedir-" + textDir +
         " mw-hide-empty-elt ns-0 ns-subject mw-editable skin-vector action-view"}>
 
-            <table className="mw-body-content diff diff-contentalign-left">
+            <table className={`mw-body-content diff ${diffAlignClassName}`}>
                 <colgroup>
                     <col className="diff-marker"/>
                     <col className="diff-content"/>
