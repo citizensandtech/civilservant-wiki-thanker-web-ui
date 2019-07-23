@@ -11,9 +11,10 @@ class Splash extends Component {
     render() {
         const {match: {params}} = this.props;
         const langs = "lang" in params ? [params.lang] : ["en", "ar", "fa", 'de', "pl"];
+        // console.log("rendering splash with langs: ", langs);
         const loginCards = langs.map((lang, index) =>
-            <Cell desktopColumns={4} phoneColumns={12} tabletColumns={12}>
-            <Card align={"center"} key={index}>
+            <Cell desktopColumns={4} phoneColumns={12} tabletColumns={12} key={index}>
+            <Card align={"center"} >
                 <h2 className={"splash-title"}>{i10n("misc.langname", lang)}</h2>
                 <CardPrimaryContent>
                     <div className={"splash-title"}>{"CivilServant Wikipedia Study"}</div>

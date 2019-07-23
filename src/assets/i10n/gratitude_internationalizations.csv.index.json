@@ -388,7 +388,7 @@
     "en": "Our experiment requires you to finish the experiment within {0} minutes",
     "ar": "يجب الانتهاء من التجربة في {0} دقائق.",
     "fa": "آزمایش ما نیاز دارد که شما حتما آزمایشتان را در کمتر از {0} دقیقه به پایان برسانید",
-    "pl": "Nasz eksperyment wymaga ukończenia eksperymentu w ciągu {0} minut.",
+    "pl": "Eksperyment wymaga, by zadanie wykonać w {0} minut",
     "de": "Unser Experiment erfordert, dass du das Experiment innerhalb von {0} Minuten abschließt."
   },
   "misc.instructions": {
@@ -402,49 +402,49 @@
     "en": "Log out",
     "ar": "خروج",
     "fa": "خروج",
-    "pl": "Wyloguj",
+    "pl": "Wyloguj się",
     "de": "Abmelden"
   },
   "oauth.logout.you": {
     "en": "You have been logged out.",
     "ar": "أنت الآن غير مسجل الدخول.",
     "fa": "شما از سامانه خارج شدید",
-    "pl": "Zostałeś wylogowany.",
+    "pl": "Wylogowano Cię",
     "de": "Du wurdest abgemeldet."
   },
   "oauth.login.with": {
     "en": "Log in with Mediawiki",
     "ar": "تسجيل دخول عبر ميدياويكي",
     "fa": "ورود از طریق مدیاویکی",
-    "pl": "Zalogowany za pomocą Mediawiki",
+    "pl": "Zaloguj się przy użyciu MediaWiki",
     "de": "Anmelden mit Mediawiki"
   },
   "oauth.logged.inas": {
     "en": "Logged in as: {0}",
     "ar": "مسجل الدخول بحساب",
     "fa": "با نام کاربری {0} وارد شده‌اید",
-    "pl": "Zalogowany jako {0}",
+    "pl": "Zalogowano jako: {0}",
     "de": "Angemeldet als: {0}"
   },
   "activity.confirm.sent": {
     "en": "Thanks, we recorded your participation.",
     "ar": "سجلنا مشاركتك، شكرًا لك.",
     "fa": "ممنون، ما فعالیت شما را ثبت کردیم",
-    "pl": "Dzięki, zarejestrowaliśmy Twój udział.",
+    "pl": "Dziękujemy, otrzymaliśmy Twoje wyniki.",
     "de": "Danke, wir haben deine Teilnahme erfasst."
   },
   "activity.time.remaining": {
     "en": "Time remaining:",
     "ar": "الوقت المتبقي:",
     "fa": "زمان باقی‌مانده",
-    "pl": "Pozostały czas",
+    "pl": "Pozostały czas:",
     "de": "Verbleibende Zeit:"
   },
   "activity.time.timer": {
     "en": "Timer:",
     "ar": "عداد الوقت",
     "fa": "تایمر",
-    "pl": "Chronometrażysta",
+    "pl": "Licznik czasu",
     "de": "Zeit:"
   },
   "misc.langname": {

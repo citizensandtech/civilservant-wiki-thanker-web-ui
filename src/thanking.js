@@ -4,6 +4,7 @@ import {getSingleTaskDatum, sendThanks, skipThanks} from "./api";
 import {Cell, Grid, Row} from "@material/react-layout-grid/dist/index";
 import ThankerTask from "./wiki-diff";
 import Tro from "./intro";
+import {Redirect} from 'react-router-dom'
 
 class Thanking extends Component {
     constructor(props) {
@@ -107,6 +108,7 @@ class Thanking extends Component {
                                      numSkipped={this.getNumSkipped()}
                                      rtl={this.props.rtl}
                                      lang={this.props.lang}
+                                     isSuperThanker={this.props.isSuperThanker}
                         >
                         </ThankerTask>
                     </Cell>
@@ -147,6 +149,12 @@ class Thanking extends Component {
         console.log('in thanking render and wsd ', this.props.worksetData);
         console.log('in thanking render and wsr', this.props.worksetResults);
         // console.log('in thanking render and prns', this.props.prevNumThanksSent);
+
+        // check that the user hasn't arrived without logging in.
+        if (this.props.worksetData.length <= 0){
+            return (<Redirect to={{pathname: `${this.props.serverSubDir}/splash/`}} />);
+        }
+
         switch (this.props.appPhase) {
             case "intro":
                 // console.log("rendering ", this.props.appPhase);

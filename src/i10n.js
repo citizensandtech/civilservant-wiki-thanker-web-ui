@@ -5,6 +5,7 @@ export function i10n(label, lang = 'en', args = []) {
     if (typeof(args) == "string" || typeof(args)=="number"){
         args=[args]
     }
+    // console.log(`Label: ${label}, args`, args)
     let fmtStr = `${label}`;
     try {
         fmtStr = i10ns[label][lang];

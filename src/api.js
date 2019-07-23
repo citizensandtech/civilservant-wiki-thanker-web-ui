@@ -14,15 +14,19 @@ import exampleNextTask from './assets/test_data/pl_1_example_next_task'
 
 console.log(`Process.env.PUBLIC_URL is ${process.env.PUBLIC_URL}.`)
 if (process.env.PUBLIC_URL === ""){
+    const delay = new Promise((res, rej) => setTimeout(res, 5000))
+
     import('fetch-mock').then( () => fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/next/*", exampleNextTask),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/123", exampleInitialData),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/123", exampleInitialDataFA),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/456", exampleInitialDataActivity),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/456", exampleInitialDataActivityFA),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/789", 401),
-        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialDataFA),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialData),
+        // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", delay.then(()=>(exampleInitialDataFA))),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
-        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
+        // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': true}),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/activityComplete/*", {'success': true}),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/logout/*", {'success': true}),
     )

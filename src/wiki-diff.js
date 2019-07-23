@@ -137,11 +137,12 @@ class DiffConsiderationList extends Component {
 
 class ThankerTask extends Component {
     makeSkipButton(numSkipped) {
-        const skipMessage = numSkipped < 3 ?
-            <div
-                className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, 4)} </div> :
-            <div
-                className="thanker-task-skip-instructions-extra"> {i10n("thanker.tool.skip.manyskips", this.props.lang)} </div>;
+        let skipMessage = <div></div>
+        if (!this.props.isSuperThanker){
+        skipMessage = numSkipped < 3 ?
+            <div className="thanker-task-skip-instructions"> {i10n("thanker.tool.skip.tooltip", this.props.lang, 4)} </div> :
+            <div className="thanker-task-skip-instructions-extra"> {i10n("thanker.tool.skip.manyskips", this.props.lang, numSkipped)} </div>;
+        }
         const thankeeId = this.props.diffObjs[0].newRevUser;
         return <div className="thanker-task-skip">
             {skipMessage}

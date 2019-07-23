@@ -1,4 +1,5 @@
-[
+{"success":true,
+"taskData":[
 {
 "diffHTML": "<tr>\n  <td colspan=\"2\"",
 "newRevId": 45048187,
@@ -44,4 +45,4 @@
 "oldRevComment": "the official language is romanian, updated pic"
 }
 ]
-
+}

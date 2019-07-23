@@ -3,6 +3,8 @@ import LinearProgress from '@material/react-linear-progress';
 import {Cell, Grid, Row} from "@material/react-layout-grid/dist/index";
 import {i10n} from "./i10n";
 import {Button} from "@material/react-button/dist/index";
+import wpLogo from './assets/img/wplogo.png';
+
 
 class Progbar extends React.Component {
     render() {
@@ -35,6 +37,7 @@ class Progbar extends React.Component {
                     <Row>
                         <Cell desktopColumns={4} phoneColumns={4} tabletColumns={3}>
                             <div className={"thanker-progress-progress"}>
+                                {<img className={"thanker-progress-progress-wplogo"} src={wpLogo} alt="Wikipedia logo."/>}
                                 {progLabel}
                                 {this.props.userName? `:\t ${this.props.userName}.`: ""}
                                 {logoutButton}

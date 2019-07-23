@@ -140,15 +140,16 @@ class App extends Component {
             isSuperThanker: initialMetadata.isSuperThanker,
             prevNumSkipped: initialMetadata.numSkipped? initialMetadata.numSkipped: 0,
             prevNumThanksSent: initialMetadata.numThanksSent? initialMetadata.numThanksSent: 0,
+            numSkipped: initialMetadata.numSkipped? initialMetadata.numSkipped: 0,
+            numThanksSent: initialMetadata.numThanksSent? initialMetadata.numThanksSent: 0,
             rtl: rtlLang,
-            toastPos: rtlLang? toast.POSITION.TOP_LEFT: toast.POSITION.TOP_RIGHT
-        });
+            toastPos: rtlLang? toast.POSITION.TOP_LEFT: toast.POSITION.TOP_RIGHT,
 
-
-        this.setState({
             worksetData: initialTaskData,
             worksetResults: Array(initialTaskData.length).fill(null)
-        })
+
+        });
+
     }
 
     notifyManySkips(numSkips) {
@@ -211,6 +212,7 @@ class App extends Component {
                                           updateActivityProgress={this.updateActivityProgress.bind(this)}
                                           loggedOut={this.state.loggedOut}
                                           rtl={this.state.rtl}
+                                          serverSubDir={this.state.serverSubDir}
                                 />}
                             />
                             <Route exact path={`${this.state.serverSubDir}/thanker`} render={() =>
@@ -232,16 +234,20 @@ class App extends Component {
                                           loggedOut={this.state.loggedOut}
                                           prevNumThanksSent={this.state.prevNumThanksSent}
                                           prevNumSkipped={this.state.prevNumSkipped}
+                                          serverSubDir={this.state.serverSubDir}
                                 />}
                             />
 
-                            <Route path={[`${this.state.serverSubDir}/initiate/:lang/:userId/`, `${this.state.serverSubDir}/initiate`]} render={(props) =>
+                            <Route path={[`${this.state.serverSubDir}/initiate/:lang/:userId/`,
+                                          `${this.state.serverSubDir}/initiate`]} render={(props) =>
                                 <URLreceiver setInitialData={this.setInitialData.bind(this)}
                                              condition={this.state.condition}
                                              serverSubDir={this.state.serverSubDir}
                                              {...props} />}
                             />
-                            <Route path={[`${this.state.serverSubDir}/splash/:lang/`, `${this.state.serverSubDir}/splash`]} render={(props) =>
+                            <Route exact path={[`${this.state.serverSubDir}/splash/:lang/`,
+                                          `${this.state.serverSubDir}/splash`,
+                                          `${this.state.serverSubDir}/`]} render={(props) =>
                                 <Splash serverSubDir={this.state.serverSubDir}
                                              {...props} />}
                             />
@@ -260,9 +266,3 @@ const Error = ({lang}) => {
     console.log('this is the error page');
     return (<div className={"error"}>{i10n("misc.landing.error.title", lang)}</div>)
 };
-
-// const LoggedOut = ({lang}) => {
-//     return (<div className={"loggedout"}>
-//         {i10n("oauth.logout.you", lang)}:<Button><a href={`https://studies.civilservant.io/${this.state.serverSubDir}/splash/${this.state.lang}`}>{i10n("oauth.login.with", lang)}</a></Button>
-//     </div>)
-// };
