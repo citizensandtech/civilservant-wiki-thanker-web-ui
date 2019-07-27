@@ -11,6 +11,7 @@ import {i10n} from './i10n';
 import Countdown from "./countdown";
 import Tro from "./intro";
 import {Cell, Grid, Row} from "@material/react-layout-grid/dist/index";
+import {Redirect} from "react-router-dom";
 
 function getRandomSubarray(arr, size) {
     var shuffled = arr.slice(0), i = arr.length, temp, index;
@@ -59,6 +60,7 @@ class Activity extends Component {
 
 
     render_activity() {
+
         const completerButton = <Button raised className='activity-complete-button' disabled={!this.state.timerComplete}
                                         onClick={() => this.props.sendActivityDone()}>
             {i10n("activity.tool.confirm.button", this.props.lang)}
@@ -113,6 +115,11 @@ class Activity extends Component {
     }
 
     render() {
+        // check the user is logged in
+        console.log("In activity, user name is  ,", this.props.userName)
+        if (this.props.userName==null){
+            return (<Redirect to={{pathname: `${this.props.serverSubDir}/splash/`}} />);
+        }
         switch (this.props.appPhase) {
             case "intro":
                 return (<Tro tro={"intro"} nextPhase={this.props.nextPhase}

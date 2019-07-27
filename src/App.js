@@ -48,7 +48,7 @@ class App extends Component {
             prevNumSkipped: null,
             numThanksSent: null,
             numSkipped: null,
-            loggedOut: false,
+            loggedOut: null,
             serverSubDir: process.env.PUBLIC_URL? "/5qop/fe": ""
         };
     }
@@ -144,10 +144,9 @@ class App extends Component {
             numThanksSent: initialMetadata.numThanksSent? initialMetadata.numThanksSent: 0,
             rtl: rtlLang,
             toastPos: rtlLang? toast.POSITION.TOP_LEFT: toast.POSITION.TOP_RIGHT,
-
+            loggedOut: false,
             worksetData: initialTaskData,
             worksetResults: Array(initialTaskData.length).fill(null)
-
         });
 
     }
@@ -213,6 +212,7 @@ class App extends Component {
                                           loggedOut={this.state.loggedOut}
                                           rtl={this.state.rtl}
                                           serverSubDir={this.state.serverSubDir}
+                                          userName={this.state.userName}
                                 />}
                             />
                             <Route exact path={`${this.state.serverSubDir}/thanker`} render={() =>
@@ -243,6 +243,8 @@ class App extends Component {
                                 <URLreceiver setInitialData={this.setInitialData.bind(this)}
                                              condition={this.state.condition}
                                              serverSubDir={this.state.serverSubDir}
+                                             userName={this.state.userName}
+                                             loggedOut={this.stateloggedOut}
                                              {...props} />}
                             />
                             <Route exact path={[`${this.state.serverSubDir}/splash/:lang/`,

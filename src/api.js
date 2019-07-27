@@ -14,7 +14,7 @@ import exampleNextTask from './assets/test_data/pl_1_example_next_task'
 
 console.log(`Process.env.PUBLIC_URL is ${process.env.PUBLIC_URL}.`)
 if (process.env.PUBLIC_URL === ""){
-    const delay = new Promise((res, rej) => setTimeout(res, 5000))
+    // const delay = new Promise((res, rej) => setTimeout(res, 5000))
 
     import('fetch-mock').then( () => fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/next/*", exampleNextTask),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/123", exampleInitialData),
