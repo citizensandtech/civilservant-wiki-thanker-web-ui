@@ -54,12 +54,15 @@ class DiffTitle extends Component {
         const revId = this.props.diffObj[revIdKey];
         const revDate = this.props.diffObj[revDateKey];
         const revUser = this.props.diffObj[revUserKey];
-        const revComment = this.props.diffObj[revCommentKey];
-        const revLink = "https://" + this.props.lang + ".wikipedia.org/wiki/?oldid=" + revId;
+        const localUrlPrefix = "https://" + this.props.lang + ".wikipedia.org/wiki";
+        const revComment_raw = this.props.diffObj[revCommentKey];
+        const revComment_urlfix = revComment_raw.replace('/wiki', localUrlPrefix);
+        const revComment = revComment_urlfix.replace('<a href=', '<a target="_blank" rel="noopener noreferrer" href=')
+        const revLink = localUrlPrefix + "/?oldid=" + revId;
         return (
             <td className={"diff-" + oOrn + "title"} colSpan={2}>
                 <div id={"mw-diff-" + oOrn + "title1"}>
-                    <strong>{revDate} <a href={revLink}>{revId}</a></strong>
+                    <strong>{revDate} <a target="_blank" rel="noopener noreferrer" href={revLink}>{revId}</a></strong>
                 </div>
                 <div id={"mw-diff-" + oOrn + "title2"}>
                     {revUser}

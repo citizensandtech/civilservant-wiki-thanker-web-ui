@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "lang": "de",
+    "lang": "pl",
     "isSuperThanker": false,
     "userId": 123,
     "userName": "secondPolishUser",
-    "condition": "activity"
+    "condition": "thank"
   },
   "taskData": [
     [
@@ -13,7 +13,7 @@
         "newRevId": 45048187,
         "newRevDate": "2016-02-14 10:04:51",
         "newRevUser": 439314,
-        "newRevComment": "mm",
+        "newRevComment": "<span dir=\"auto\"><span class=\"autocomment\"><a href=\"/wiki/Roma_G%C4%85siorowska#Teatr\" title=\"Roma Gąsiorowska\">→‎Teatr</a>: </span>  Uzupełnienie ról</span>",
         "oldRevId": 45048187,
         "oldRevDate": "2016-02-14 10:04:51",
         "oldRevUser": 439314,
