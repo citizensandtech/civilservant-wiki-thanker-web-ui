@@ -10,13 +10,13 @@ class Progbar extends React.Component {
     render() {
         // TODO refactor all these checks to just one loggedIn or Out Check
 
-        const numSkippedCell = (this.props.numSkipped !== null && this.props.loggedOut === false) ?
+        const numSkippedCell = (this.props.numSkipped !== null && this.props.loggedOut === false && this.props.condition === 'thank') ?
             <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
                 <div className={"thanker-progress-numthanked"}>
                     {i10n("thanker.tool.progress.1", this.props.lang, this.props.numThanksSent)}
                 </div>
             </Cell> : <div></div>;
-        const numThanksCell = (this.props.numThanksSent !== null && this.props.loggedOut === false)  ?
+        const numThanksCell = (this.props.numThanksSent !== null && this.props.loggedOut === false && this.props.condition === 'thank')  ?
             <Cell desktopColumns={4} phoneColumns={2} tabletColumns={2}>
                 <div className={"thanker-progress-numskipped"}>
                     {i10n("thanker.tool.progress.2", this.props.lang, this.props.numSkipped)}

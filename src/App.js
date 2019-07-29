@@ -197,6 +197,7 @@ class App extends Component {
                              userName={this.state.userName}
                              rtl={this.state.rtl}
                              lang={this.state.lang}
+                             condition={this.state.condition}
                     />
                     <div className={"interactable-container"}>
                         {/*<Router basename={process.env.PUBLIC_URL}>*/}

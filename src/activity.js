@@ -62,8 +62,10 @@ class Activity extends Component {
     render_activity() {
 
         const completerButton = <Button raised className='activity-complete-button' disabled={!this.state.timerComplete}
-                                        onClick={() => this.props.sendActivityDone()}>
-            {i10n("activity.tool.confirm.button", this.props.lang)}
+                                        onClick={() => this.props.sendActivityDone()}
+                                // style={{"overflow":"visible"}}
+        >
+            <div className='activity-complete-button-label'>{i10n("activity.tool.confirm.button", this.props.lang)}</div>
         </Button>;
         const starterButton = <Button raised className='activity-start-button'
                                       onClick={() => this.startTimer()}
@@ -128,7 +130,7 @@ class Activity extends Component {
                              body={i10n("activity.landing.body", this.props.lang)}
                              rtl={this.props.rtl} />);
             case "tasks":
-                window.scroll(0, 0);
+                // window.scroll(0, 0);
                 return this.render_activity();
             case "outro":
                 const nextText = this.props.loggedOut ? null : i10n("oauth.logout.button", this.props.lang);

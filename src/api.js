@@ -27,7 +27,7 @@ if (process.env.PUBLIC_URL === ""){
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
         // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': true}),
-        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/activityComplete/*", {'success': true}),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/activity/complete/*", {'success': true}),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/logout/*", {'success': true}),
     )
 }

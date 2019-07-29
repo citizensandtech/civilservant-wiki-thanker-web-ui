@@ -3,8 +3,8 @@ import React, {Component} from "react";
 class Countdown extends Component {
     state = {
         timerOn: false,
-        // timerTime: 600000, // seconds to countdown in milliseconds
-        timerTime: 2000, // seconds to countdown in milliseconds
+        timerTime: 600000, // seconds to countdown in milliseconds
+        // timerTime: 2000, // seconds to countdown in milliseconds
         timerStart: 0,
         refreshMillis: 500
     };

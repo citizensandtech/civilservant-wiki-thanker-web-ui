@@ -68,3 +68,12 @@
 .thanker-progress-progress-wplogo{
   height: 1.5em
 }
+
+.activity-complete-button{
+  //padding: 0em !important;
+  overflow: visible !important;
+  &-label{
+    //color: black !important;
+    font-size: smaller !important;
+  }
+}
