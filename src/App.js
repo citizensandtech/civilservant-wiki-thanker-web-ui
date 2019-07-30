@@ -229,6 +229,7 @@ class App extends Component {
                                           isSuperThanker={this.state.isSuperThanker}
                                           lang={this.state.lang}
                                           userId={this.state.userId}
+                                          userName={this.state.userName}
                                           appendTask={this.appendTask.bind(this)}
                                           updateWorksetResults={this.updateWorksetResults.bind(this)}
                                           logOutUser={this.logOutUser.bind(this)}

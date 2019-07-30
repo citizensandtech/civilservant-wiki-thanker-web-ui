@@ -139,6 +139,13 @@
     "pl": "To tyle. Uko\u0144czy\u0142e\u015b\/uko\u0144czy\u0142a\u015b swoje zadanie i 2\/3 badania. Otrzymasz od nas jeszcze jeden e-mail z pro\u015bb\u0105 o wype\u0142nienie ankiety. Do tego czasu jeszcze raz dzi\u0119kujemy za udzia\u0142!\nMo\u017cesz zamkn\u0105\u0107 to okno przegl\u0105darki.",
     "de": "Du hast die Aufgabe und somit auch Teil zwei der Studie erfolgreich abgeschlossen. Nur noch ein Teil, dann hast du es geschafft! Wir schicken dir demn\u00e4chst noch eine letzte E-Mail mit der Bitte, die Studie bis zum Ende durchzuf\u00fchren. Zun\u00e4chst aber noch mal vielen Dank f\u00fcr deine Teilnahme! \nDu kannst dieses Fenster nun schlie\u00dfen."
   },
+  "thanker.end.thankslog":{
+    "en": "Thanks log (may take a few minutes to update): ",
+    "ar": "سجل الشكر (قد يستغرق التحديث بضع دقائق): ",
+    "fa": "سیاههٔ تشکرها (ممکن است چند دقیقه برای بروزرسانی طول بکشد): ",
+    "pl": "Rejestr podziękowań (aktualizacja może potrwać kilka minut): ",
+    "de": "Dankeschön-Logbuch (das Update kann einige Minuten dauern): "
+  },
   "activity.landing.title": {
     "en": "Wikipedia Study Instructions",
     "ar": "\u062a\u0639\u0644\u064a\u0645\u0627\u062a \u062f\u0631\u0627\u0633\u0629 \u0648\u064a\u0643\u064a\u0628\u064a\u062f\u064a\u0627",

@@ -16,6 +16,7 @@
 
 
 
+
 .container-rtl {
   direction: rtl;
 }
@@ -76,4 +77,17 @@
     //color: black !important;
     font-size: smaller !important;
   }
+}
+
+@media only screen and (max-width: 600px) {
+ .interactable-container{
+   padding: 0.4em;
+ }
+  .mdc-layout-grid{
+    padding: 0.0em !important
+  }
+  .mdc-card{
+    padding: 0.0em !important;
+  }
+
 }

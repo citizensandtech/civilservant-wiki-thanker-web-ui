@@ -43,7 +43,15 @@ class WikiDiff extends Component {
     }
 }
 
+
+
+
+
 class DiffTitle extends Component {
+    replaceAll =  (target, search, replacement) => {
+        if (target===null){return ''}
+        return target.split(search).join(replacement);
+    };
 
     render() {
         const oOrn = this.props.newold === 'new' ? "n" : "o";
@@ -56,8 +64,8 @@ class DiffTitle extends Component {
         const revUser = this.props.diffObj[revUserKey];
         const localUrlPrefix = "https://" + this.props.lang + ".wikipedia.org/wiki";
         const revComment_raw = this.props.diffObj[revCommentKey];
-        const revComment_urlfix = revComment_raw.replace('/wiki', localUrlPrefix);
-        const revComment = revComment_urlfix.replace('<a href=', '<a target="_blank" rel="noopener noreferrer" href=')
+        const revComment_urlfix = this.replaceAll(revComment_raw, '/wiki', localUrlPrefix);
+        const revComment = this.replaceAll(revComment_urlfix, '<a href=', '<a target="_blank" rel="noopener noreferrer" href=');
         const revLink = localUrlPrefix + "/?oldid=" + revId;
         return (
             <td className={"diff-" + oOrn + "title"} colSpan={2}>

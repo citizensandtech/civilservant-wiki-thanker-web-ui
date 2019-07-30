@@ -134,11 +134,19 @@ class Thanking extends Component {
 
     render_outro() {
         const nextText = this.props.loggedOut ? null : i10n("oauth.logout.button", this.props.lang);
+        const regularBody = i10n("thanker.end.body", this.props.lang)
+        const thanksLogLink = `https://${this.props.lang}.wikipedia.org/wiki/Special:Log?type=thanks&user=${this.props.userName}`
+        const thanksLogLinkA = <div>
+                                    {i10n("thanker.end.thankslog", this.props.lang)}
+                                    <a target="_blank" rel="noopener noreferrer" href={thanksLogLink}>
+                                        {thanksLogLink}</a>
+                                </div>
+        const extraBody = <div>{regularBody} {thanksLogLinkA}</div>
         return (
             <Tro tro={"outro"}
                  next={nextText} nextPhase={this.props.logOutUser}
                  title={i10n("thanker.end.title", this.props.lang)}
-                 body={i10n("thanker.end.body", this.props.lang)}
+                 body={extraBody}
                  rtl={this.props.rtl}
             >
             </Tro>
