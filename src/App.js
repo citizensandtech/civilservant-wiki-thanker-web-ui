@@ -58,8 +58,6 @@ class App extends Component {
     }
 
     appendTask(taskDatum) {
-        // console.log("appender called with taskDatum: ", taskDatum);
-        // console.log("appender called and stateTask : ", this.state.worksetData);
         this.state.worksetData.push(taskDatum);
         this.state.worksetResults.push(null);
         this.setState({
@@ -89,7 +87,6 @@ class App extends Component {
     }
 
     nextPhase() {
-        console.log("next phase called curr", this.state.appPhase);
         switch (this.state.appPhase) {
             case "intro":
                 this.setState({appPhase: "tasks"});
@@ -115,7 +112,6 @@ class App extends Component {
     }
 
     updateThankerProgress(numThanksSent, numSkipped) {
-        console.log('update thanker progress set with', numThanksSent, numSkipped);
         const tasksPerUser = this.state.isSuperThanker? config.tasksPerUserSuper: config.tasksPerUser;
         const thankerPercent = numThanksSent / tasksPerUser;
         const currProgress = (1 - config.startProgAmount - config.endProgAmount) * (thankerPercent) + config.startProgAmount;
@@ -131,7 +127,7 @@ class App extends Component {
         const initialMetadata = initialAPIData.metadata;
         const initialTaskData = initialAPIData.taskData;
         const rtlLang = ['ar', 'fa'].indexOf(initialMetadata.lang) >= 0;
-        console.log("I saw taskData as: ", initialTaskData)
+        // console.log("I saw taskData as: ", initialTaskData)
         this.setState({
             lang: initialMetadata.lang,
             userId: initialMetadata.userId,
@@ -267,6 +263,5 @@ class App extends Component {
 export default App;
 
 const Error = ({lang}) => {
-    console.log('this is the error page');
     return (<div className={"error"}>{i10n("misc.landing.error.title", lang)}</div>)
 };

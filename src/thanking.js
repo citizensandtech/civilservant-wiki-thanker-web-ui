@@ -34,13 +34,13 @@ class Thanking extends Component {
 
 
     skipCB = () => {
-        console.log("SKIP CALLBACK BEING TRIGGERED")
+        // console.log("SKIP CALLBACK BEING TRIGGERED")
         let nextWorksetResults = this.props.worksetResults;
         nextWorksetResults[this.getCurrTaskPos()] = 'skip';
         this.props.updateWorksetResults(nextWorksetResults);
         this.nextTask();
         const numSkipped = this.getNumSkipped();
-        if (numSkipped % 3 === 0) {
+        if ((numSkipped % 3 === 0) && (!this.props.isSuperThanker)) {
             this.props.notifyManySkips(numSkipped)
         }
     };
@@ -59,7 +59,7 @@ class Thanking extends Component {
         this.props.updateWorksetResults(nextWorksetResults);
         this.props.notifyThankSent();
         const numThanksSent = this.getNumThanksSent();
-        if ((numThanksSent % 10 === 0) & (this.props.isSuperThanker)) {
+        if ((numThanksSent % 10 === 0) && (this.props.isSuperThanker)) {
             this.props.notifySuperThankerProg(numThanksSent)
         }
         this.nextTask()
@@ -75,7 +75,7 @@ class Thanking extends Component {
 
 
     nextTask() {
-        console.log("NEXT TASK CB TRIGGERED")
+        // console.log("NEXT TASK CB TRIGGERED")
         this.props.updateThankerProgress(this.getNumThanksSent(), this.getNumSkipped());
         // check if we are at the end
         if (this.isWorksetComplete()) { //-1 to account for 0 indexing
@@ -90,8 +90,8 @@ class Thanking extends Component {
     render_task() {
         const currTaskPos = this.getCurrTaskPos();
         const currDiffObjs = this.props.worksetData[currTaskPos];
-        console.log("currTaskPos is, ", currTaskPos)
-        console.log("currDiffObjs are:, ", currDiffObjs)
+        // console.log("currTaskPos is, ", currTaskPos)
+        // console.log("currDiffObjs are:, ", currDiffObjs)
         const instructions = this.props.isSuperThanker? i10n("superthanker.landing.instructions",this.props.lang):
                                                         i10n("thanker.tool.instructions",this.props.lang);
         return (
@@ -154,8 +154,8 @@ class Thanking extends Component {
     }
 
     render() {
-        console.log('in thanking render and wsd ', this.props.worksetData);
-        console.log('in thanking render and wsr', this.props.worksetResults);
+        console.log('Workset Data are: ', this.props.worksetData);
+        console.log('Workset Results are: ', this.props.worksetResults);
         // console.log('in thanking render and prns', this.props.prevNumThanksSent);
 
         // check that the user hasn't arrived without logging in.

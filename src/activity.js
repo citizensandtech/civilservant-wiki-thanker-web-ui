@@ -118,7 +118,7 @@ class Activity extends Component {
 
     render() {
         // check the user is logged in
-        console.log("In activity, user name is  ,", this.props.userName)
+        // console.log("In activity, user name is  ,", this.props.userName)
         if (this.props.userName==null){
             return (<Redirect to={{pathname: `${this.props.serverSubDir}/splash/`}} />);
         }

@@ -47,7 +47,7 @@ function handleErrors(response, props) {
         toast.error(`Please email ${contactEmail} about this error: Response was not ok. 
             Context: response status is ${response.status}`,  {autoClose:false, closeOnClick:false, draggable:false})
         if (response.status===401){
-            console.log("Got a 401 error. Prop  s are:", props)
+            console.log("Got a 401 error. Props are:", props)
             window.location = `${props.serverSubDir}/splash/`
         }
         toast.error(`There was a network error, please try again in a few seconds. `, {autoClose:6000})
@@ -59,7 +59,7 @@ export function getSingleTaskDatum(lang, userId, cb) {
     // get a next item to add to the queue
     fetch(`${apiHost}/task/next/`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
-            console.log('in user data, data is:', data);
+            console.log('Got single Task Datum:', data);
             if (data.success){
                 cb(data.taskData)
             }
@@ -75,7 +75,7 @@ export function getInitialData(lang, userId, cb, props) {
     //get the first metadata and first two items
     fetch(`${apiHost}/initial-data/`).then((response) => handleErrors(response, props)).then(function (response) {
         response.json().then(function (data) {
-            // console.log('in user data, data is:', data);
+            console.log('Got initial data:', data.taskData);
             cb(data)
         });
     })
@@ -84,7 +84,10 @@ export function getInitialData(lang, userId, cb, props) {
 export function sendThanks(lang, revId, thankingUserId, cb) {
     fetch(`${apiHost}/diff/thank/${revId}`).then(handleErrors).then(function (response) {
         response.json().then(function(data){
-            if (data.success){cb(revId)}
+            if (data.success){
+                console.log("send thanks success returned from server")
+                cb(revId)
+            }
             else {toast.error(`Please email ${contactEmail} about this error: ${data.error}. \n\n 
             Context: sendThanks. lang:${lang}. revId:${revId}, thankingUserId:${thankingUserId}`,
                 {autoClose:false, closeOnClick:false, draggable:false})}
@@ -96,7 +99,10 @@ export function skipThanks(lang, thankeeUserId, thankingUserId, cb) {
     console.log("SKIP API CALL BEING MADE")
     fetch(`${apiHost}/task/skip/${thankeeUserId}`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
-            if (data.success){cb()}
+            if (data.success){
+                console.log("skip thanks success returned from server")
+                cb()
+            }
             else {toast.error(`Please email ${contactEmail} about this error: ${data.error}. 
             Context: skipThanks. lang:${lang}. thankeeUserId${thankeeUserId}, thankingUserId${thankingUserId}`,
                 {autoClose:false, closeOnClick:false, draggable:false})}
@@ -107,7 +113,7 @@ export function skipThanks(lang, thankeeUserId, thankingUserId, cb) {
 
 export function logOut(lang, userId, cb) {
     fetch(`${apiHost}/logout/`).then(handleErrors).then(function (response) {
-        console.log("signed out user");
+        console.log("Logged out user");
         cb()
     })
 }
@@ -117,6 +123,7 @@ export function sendActivityComplete(lang, userId, cb) {
     // tells the back end
     fetch(`${apiHost}/activity/complete/`).then(handleErrors).then(function (response) {
         response.json().then(function (data) {
+            console.log("Activity complete returned from server.")
             cb(data);
         })
     })
