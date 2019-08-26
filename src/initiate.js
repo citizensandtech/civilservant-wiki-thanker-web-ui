@@ -21,18 +21,23 @@ class URLreceiver extends Component {
     }
 
     render() {
-        // console.log("initiates condition is ,", this.props.condition)
-        // console.log("user name is  ,", this.props.userName)
+        console.log("initiates condition is ,", this.props.condition)
         switch (this.props.condition) {
             case 'thank':
                 return <Redirect push to={{pathname: `${this.props.serverSubDir}/thanker`}}/>;
             case 'activity':
                 return <Redirect push to={{pathname: `${this.props.serverSubDir}/activity`}}/>;
             case null:
-                return <div>Loading...</div>;
+                if (this.props.appPhase==='ending') {
+                    return <Redirect push to={{pathname: `${this.props.serverSubDir}/no-candidates-error`}}/>
+                }
+                else{
+                    return <div>Loading...</div>;
+                }
             default:
                 return <Redirect push to={{pathname: `${this.props.serverSubDir}/error`}}/>
         }
+        // console.log("user name is  ,", this.props.userName)
     }
 }
 

@@ -81,7 +81,7 @@ class Thanking extends Component {
         if (this.isWorksetComplete()) { //-1 to account for 0 indexing
             this.props.nextPhase()
         } else {
-            getSingleTaskDatum(this.props.lang, this.props.userId, this.props.appendTask);
+            getSingleTaskDatum(this.props.lang, this.props.userId, this.props.appendTask, this.props);
             window.scrollTo(0, 0)
         }
     }
@@ -153,13 +153,17 @@ class Thanking extends Component {
         )
     }
 
+    render_end() {
+        return <Redirect push to={{pathname: `${this.props.serverSubDir}/no-candidates-error`}}/>
+    }
+
     render() {
         console.log('Workset Data are: ', this.props.worksetData);
         console.log('Workset Results are: ', this.props.worksetResults);
         // console.log('in thanking render and prns', this.props.prevNumThanksSent);
 
         // check that the user hasn't arrived without logging in.
-        if (this.props.worksetData.length <= 0){
+        if (this.props.worksetData.length <= 0 && this.props.appPhase!=='ending'){
             return (<Redirect to={{pathname: `${this.props.serverSubDir}/splash/`}} />);
         }
 
@@ -177,6 +181,12 @@ class Thanking extends Component {
             case "outro":
                 // console.log("rendering ", this.props.appPhase);
                 return this.render_outro();
+            case "ending":
+                console.log("In the ending phase.")
+                if (this.getCurrTaskPos() === -1){
+                    return this.render_end()
+                }
+                else{return this.render_task()}
             default:
                 return this.render_intro();
         }

@@ -1,32 +1,34 @@
-{
+{ "success": false,
+  "error": "no-candidates",
   "metadata": {
     "lang": "pl",
     "isSuperThanker": false,
     "userId": 123,
     "userName": "secondPolishUser",
-    "condition": "thank"
+    "condition": "thank",
+    "numThanksSent": 0
   },
   "taskData": [
     [
       {
         "diffHTML": "<tr>\n  <td colspan=\"2\" class=\"diff-lineno\">Linia 8:</td>\n  <td colspan=\"2\" class=\"diff-lineno\">Linia 8:</td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |dope\u0142niacz nazwy             = Jedy\u0144c\u00f3w</div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |dope\u0142niacz nazwy             = Jedy\u0144c\u00f3w</div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |pa\u0144stwo                      = MDA</div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |pa\u0144stwo                      = MDA</div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">\u2212</td>\n  <td class=\"diff-deletedline\"><div> |1. jednostka administracyjna = [[Rejon <del class=\"diffchange diffchange-inline\">Edine\u0163</del>|<del class=\"diffchange diffchange-inline\">Edine\u0163</del>]]</div></td>\n  <td class=\"diff-marker\">+</td>\n  <td class=\"diff-addedline\"><div> |1. jednostka administracyjna = [[Rejon <ins class=\"diffchange diffchange-inline\">Jedy\u0144ce</ins>|<ins class=\"diffchange diffchange-inline\">Jedy\u0144ce</ins>]]</div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |powierzchnia                 = </div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |powierzchnia                 = </div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |wysoko\u015b\u0107                     = </div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |wysoko\u015b\u0107                     = </div></td>\n</tr>\n<tr>\n  <td colspan=\"2\" class=\"diff-lineno\">Linia 22:</td>\n  <td colspan=\"2\" class=\"diff-lineno\">Linia 22:</td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |www                          = </div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |www                          = </div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div>}}</div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div>}}</div></td>\n</tr>\n<tr>\n  <td colspan=\"2\" class=\"diff-empty\">&#160;</td>\n  <td class=\"diff-marker\">+</td>\n  <td class=\"diff-addedline\"></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">\u2212</td>\n  <td class=\"diff-deletedline\"><div>'''Jedy\u0144ce''' [[j\u0119zyk rumu\u0144ski|rum.]] Edine\u0163, [[miasto]] w p\u00f3\u0142nocnej [[Mo\u0142dawia|Mo\u0142dawii]], 22 tysi\u0119cy mieszka\u0144c\u00f3w ([[2006]]). Stolica [[Rejon <del class=\"diffchange diffchange-inline\">Edine\u0163</del>|rejonu <del class=\"diffchange diffchange-inline\">Edine\u0163</del>]].</div></td>\n  <td class=\"diff-marker\">+</td>\n  <td class=\"diff-addedline\"><div>'''Jedy\u0144ce''' <ins class=\"diffchange diffchange-inline\">(</ins>[[j\u0119zyk rumu\u0144ski|rum.]] Edine\u0163<ins class=\"diffchange diffchange-inline\">)</ins>, [[miasto]] w p\u00f3\u0142nocnej [[Mo\u0142dawia|Mo\u0142dawii]], 22 tysi\u0119cy mieszka\u0144c\u00f3w ([[2006]]). Stolica [[Rejon <ins class=\"diffchange diffchange-inline\">Jedy\u0144ce</ins>|rejonu <ins class=\"diffchange diffchange-inline\">Jedy\u0144ce</ins>]].</div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div>== Linki zewn\u0119trzne ==</div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div>== Linki zewn\u0119trzne ==</div></td>\n</tr>\n\n<!-- diff cache key plwiki:diff:wikidiff2:1.12:old-35354500:rev-45048187:1.7.3:25 -->\n",
         "newRevId": 45048187,
-        "newRevDate": "2016-02-14 10:04:51",
+        "newRevDate": "2016-02-14 10:04:51Z",
         "newRevUser": 439314,
-        "newRevComment": "<span dir=\"auto\"><span class=\"autocomment\"><a href=\"/wiki/Roma_G%C4%85siorowska#Teatr\" title=\"Roma Gąsiorowska\">→‎Teatr</a>: </span>  Uzupełnienie ról</span>",
+        "newRevComment": "<span dir=\"auto\"><span class=\"autocomment\"><a href=\"/wiki/Roma_G%C4%85siorowska#Teatr\" title=\"Roma Gąsiorowska\">→‎Teatr</a>: </span>  Uzupełnienie ról</span> <span dir=\"auto\"><span class=\"autocomment\"><a href=\"/wiki/Roma_G%C4%85siorowska#Teatr\" title=\"Roma Gąsiorowska\">→‎Teatr</a>: </span>  Uzupełnienie ról</span>",
         "oldRevId": 45048187,
-        "oldRevDate": "2016-02-14 10:04:51",
+        "oldRevDate": "2016-02-14 10:04:51Z",
         "oldRevUser": 439314,
         "oldRevComment": "mm"
       },
       {
         "diffHTML": "<tr>\n  <td colspan=\"2\" class=\"diff-lineno\">Linia 41:</td>\n  <td colspan=\"2\" class=\"diff-lineno\">Linia 41:</td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |g\u0142owa_pa\u0144stwa_opis     = [[W\u0142adcy Mo\u0142dawii|hospodar]]</div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |g\u0142owa_pa\u0144stwa_opis     = [[W\u0142adcy Mo\u0142dawii|hospodar]]</div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |status_terytorium      = </div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |status_terytorium      = </div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">\u2212</td>\n  <td class=\"diff-deletedline\"><div> |zale\u017cne_od             = [[Imperium osma\u0144skie]]&lt;br /&gt;&lt;small&gt;(<del class=\"diffchange diffchange-inline\">1487</del> \u2212 1859)&lt;/small&gt;</div></td>\n  <td class=\"diff-marker\">+</td>\n  <td class=\"diff-addedline\"><div> |zale\u017cne_od             = [[Imperium osma\u0144skie]]&lt;br /&gt;&lt;small&gt;(<ins class=\"diffchange diffchange-inline\">1538</ins> \u2212 1859)&lt;/small&gt;</div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |g\u0142owa_terytorium       = </div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |g\u0142owa_terytorium       = </div></td>\n</tr>\n<tr>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |g\u0142owa_terytorium_opis  = </div></td>\n  <td class=\"diff-marker\">&#160;</td>\n  <td class=\"diff-context\"><div> |g\u0142owa_terytorium_opis  = </div></td>\n</tr>\n\n<!-- diff cache key plwiki:diff:wikidiff2:1.12:old-41782102:rev-44187740:1.7.3:25 -->\n",
         "newRevId": 44187740,
-        "newRevDate": "2015-11-28 23:45:10",
+        "newRevDate": "2015-11-28 23:45:10Z",
         "newRevUser": 439314,
         "newRevComment": "actually this year, Petru Rare\u0219 was the last free king, by this period",
         "oldRevId": 44187740,
-        "oldRevDate": "2015-11-28 23:45:10",
+        "oldRevDate": "2015-11-28 23:45:10Z",
         "oldRevUser": 439314,
         "oldRevComment": "actually this year, Petru Rare\u0219 was the last free king, by this period"
       },

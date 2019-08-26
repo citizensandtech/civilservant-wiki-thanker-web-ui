@@ -1,0 +1,11 @@
+{ "success": false,
+  "error": "no-candidates",
+  "metadata": {
+    "lang": "pl",
+    "isSuperThanker": false,
+    "userId": 123,
+    "userName": "secondPolishUser",
+    "condition": "thank",
+    "numThanksSent": 0
+  }
+}

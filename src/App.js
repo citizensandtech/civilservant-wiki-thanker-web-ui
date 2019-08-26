@@ -26,7 +26,7 @@ import ErrorBoundary from './error';
 import Activity from "./activity";
 import URLreceiver from "./initiate";
 import Splash from "./splash"
-
+import Tro from "./intro"
 
 class App extends Component {
     constructor(props) {
@@ -86,19 +86,26 @@ class App extends Component {
 
     }
 
-    nextPhase() {
-        switch (this.state.appPhase) {
-            case "intro":
-                this.setState({appPhase: "tasks"});
-                break;
-            case "tasks":
-                this.setState({
-                    appPhase: "outro",
-                    currProgress: 1
-                });
-                break;
-            default:
-                this.setState({appPhase: "outro"});
+    nextPhase(explicitPhase) {
+        console.log(`In nextPhase and explicitPhase is ${explicitPhase}`)
+        if (explicitPhase){
+            this.setState({appPhase: explicitPhase})
+        }
+        else {
+            switch (this.state.appPhase) {
+                case "intro":
+                    this.setState({appPhase: "tasks"});
+                    break;
+                case "tasks":
+                    this.setState({
+                        appPhase: "outro",
+                        currProgress: 1
+                    });
+                    break;
+                default:
+                    this.setState({appPhase: "outro"});
+            }
+
         }
     }
 
@@ -177,8 +184,9 @@ class App extends Component {
 
 
     render() {
-        const loggedOutRedir = this.state.loggedOut? <Redirect to={{pathname: `${this.state.serverSubDir}/splash/`}} />: null;
         // console.log(`base url is: ${process.env.PUBLIC_URL}`)
+        // console.log(`Logged Out: ${this.state.loggedOut}`)
+        const loggedOutRedir = this.state.loggedOut? <Redirect to={{pathname: `${this.state.serverSubDir}/splash/`}} />: null;
         return (
             <div className={this.state.rtl ? "container-rtl" : "container-ltr"}>
                 <ErrorBoundary>
@@ -243,6 +251,8 @@ class App extends Component {
                                              serverSubDir={this.state.serverSubDir}
                                              userName={this.state.userName}
                                              loggedOut={this.stateloggedOut}
+                                             nextPhase={this.nextPhase.bind(this)}
+                                             appPhase={this.state.appPhase}
                                              {...props} />}
                             />
                             <Route exact path={[`${this.state.serverSubDir}/splash/:lang/`,
@@ -251,7 +261,16 @@ class App extends Component {
                                 <Splash serverSubDir={this.state.serverSubDir}
                                              {...props} />}
                             />
-                            <Route exact path={`${this.state.serverSubDir}/error`} render={() => <Error lang={this.state.lang}/>}/>
+                            <Route exact path={`${this.state.serverSubDir}/error`} render={() => <Tro lang={this.state.lang}/>}/>
+                            <Route exact path={`${this.state.serverSubDir}/no-candidates-error`}
+                                   render={() => <Tro tro={"outro"}
+                                                    next={this.state.loggedOut ? null : i10n("oauth.logout.button", this.state.lang)}
+                                                    nextPhase={this.logOutUser.bind(this)}
+                                                    title={i10n("thanker.end.title", this.state.lang)}
+                                                    body={i10n("thanker.end.no.candidates", this.state.lang)}
+                                                    rtl={this.props.rtl}
+                                                />
+                                            }/>
                         </Router>
                     </div>
                 </ErrorBoundary>
@@ -261,7 +280,3 @@ class App extends Component {
 }
 
 export default App;
-
-const Error = ({lang}) => {
-    return (<div className={"error"}>{i10n("misc.landing.error.title", lang)}</div>)
-};

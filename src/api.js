@@ -6,6 +6,7 @@ import fetchMock from "fetch-mock";
 
 import exampleInitialData from './assets/test_data/pl_intialdata_plus_2_example_tasks'
 import exampleInitialDataFA from './assets/test_data/fa_intialdata_plus_2_example_tasks'
+import exampleInitialDataEnding from './assets/test_data/pl_intialdata_ending'
 import exampleInitialDataActivity from './assets/test_data/pl_intialdata_plus_activity'
 import exampleInitialDataActivityFA from './assets/test_data/fa_intialdata_plus_activity'
 import exampleNextTask from './assets/test_data/pl_1_example_next_task'
@@ -22,7 +23,7 @@ if (process.env.PUBLIC_URL === ""){
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/456", exampleInitialDataActivity),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/456", exampleInitialDataActivityFA),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/789", 401),
-        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialData),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialDataEnding),
         // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", delay.then(()=>(exampleInitialDataFA))),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
         // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),
@@ -37,34 +38,42 @@ const apiHost = "https://studies.civilservant.io/5qop/api";
 const contactEmail = 'max.klein@civilservant.io';
 
 
-function handleErrors(response, props) {
+function handleNetworkErrors(response, props) {
     if (response.ok){
         console.log("Response was ok and it was: ", response)
     }
     if (!response.ok) {
-        // throw Error(response.statusText);
         console.log(`Response error is :`, response)
-        toast.error(`Please email ${contactEmail} about this error: Response was not ok. 
-            Context: response status is ${response.status}`,  {autoClose:false, closeOnClick:false, draggable:false})
         if (response.status===401){
             console.log("Got a 401 error. Props are:", props)
             window.location = `${props.serverSubDir}/splash/`
         }
+
+        toast.error(`Please email ${contactEmail} about this error: Response was not ok. 
+            Context: response status is ${response.status}`,  {autoClose:false, closeOnClick:false, draggable:false})
+
         toast.error(`There was a network error, please try again in a few seconds. `, {autoClose:6000})
     }
     return response;
 }
 
-export function getSingleTaskDatum(lang, userId, cb) {
+function handleDataErrors(data, props){
+    // already know that data.success = False
+    if (data.error==='no-candidates'){
+        props.nextPhase('ending')
+    }
+}
+
+export function getSingleTaskDatum(lang, userId, cb, props) {
     // get a next item to add to the queue
-    fetch(`${apiHost}/task/next/`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/task/next/`).then(handleNetworkErrors).then(function (response) {
         response.json().then(function (data) {
             console.log('Got single Task Datum:', data);
             if (data.success){
                 cb(data.taskData)
             }
             else {
-                // TODO handle this more gracefully
+                handleDataErrors(data, props)
                 console.error("We didn't get a sucessful return")
             }
         });
@@ -73,16 +82,21 @@ export function getSingleTaskDatum(lang, userId, cb) {
 
 export function getInitialData(lang, userId, cb, props) {
     //get the first metadata and first two items
-    fetch(`${apiHost}/initial-data/`).then((response) => handleErrors(response, props)).then(function (response) {
+    fetch(`${apiHost}/initial-data/`).then((response) => handleNetworkErrors(response, props)).then(function (response) {
         response.json().then(function (data) {
             console.log('Got initial data:', data.taskData);
-            cb(data)
+            if (data.success){
+                cb(data)
+            }
+            else {
+                handleDataErrors(data, props)
+            }
         });
     })
 }
 
 export function sendThanks(lang, revId, thankingUserId, cb) {
-    fetch(`${apiHost}/diff/thank/${revId}`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/diff/thank/${revId}`).then(handleNetworkErrors).then(function (response) {
         response.json().then(function(data){
             if (data.success){
                 console.log("send thanks success returned from server")
@@ -97,7 +111,7 @@ export function sendThanks(lang, revId, thankingUserId, cb) {
 
 export function skipThanks(lang, thankeeUserId, thankingUserId, cb) {
     console.log("SKIP API CALL BEING MADE")
-    fetch(`${apiHost}/task/skip/${thankeeUserId}`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/task/skip/${thankeeUserId}`).then(handleNetworkErrors).then(function (response) {
         response.json().then(function (data) {
             if (data.success){
                 console.log("skip thanks success returned from server")
@@ -112,7 +126,7 @@ export function skipThanks(lang, thankeeUserId, thankingUserId, cb) {
 
 
 export function logOut(lang, userId, cb) {
-    fetch(`${apiHost}/logout/`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/logout/`).then(handleNetworkErrors).then(function (response) {
         console.log("Logged out user");
         cb()
     })
@@ -121,7 +135,7 @@ export function logOut(lang, userId, cb) {
 
 export function sendActivityComplete(lang, userId, cb) {
     // tells the back end
-    fetch(`${apiHost}/activity/complete/`).then(handleErrors).then(function (response) {
+    fetch(`${apiHost}/activity/complete/`).then(handleNetworkErrors).then(function (response) {
         response.json().then(function (data) {
             console.log("Activity complete returned from server.")
             cb(data);
