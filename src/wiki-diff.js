@@ -95,10 +95,13 @@ function MakeTitleRow(diffObj, lang) {
 
 class DiffConsideration extends Component {
     render() {
+        const localUrlPrefix = "https://" + this.props.lang + ".wikipedia.org/wiki";
+        const pageTitleUrl = localUrlPrefix + this.props.diffObj.pageTitle;
         return (
             <Cell desktopColumns={6} phoneColumns={12} tabletColumns={12}>
                 <Card>
                     <h2 align="center">{i10n("thanker.tool.diff.title", this.props.lang, `${this.props.cardId + 1}`)}</h2>
+                    <h3 align="center"><a target="_blank" rel="noopener noreferrer" href={pageTitleUrl}>{this.props.diffObj.pageTitle}</a></h3>
                     <CardPrimaryContent>
                         <WikiDiff diffObj={this.props.diffObj} lang={this.props.lang}>
                         </WikiDiff>

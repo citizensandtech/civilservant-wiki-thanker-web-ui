@@ -6,7 +6,7 @@ import fetchMock from "fetch-mock";
 
 import exampleInitialData from './assets/test_data/pl_intialdata_plus_2_example_tasks'
 import exampleInitialDataFA from './assets/test_data/fa_intialdata_plus_2_example_tasks'
-import exampleInitialDataEnding from './assets/test_data/pl_intialdata_ending'
+// import exampleInitialDataEnding from './assets/test_data/pl_intialdata_ending'
 import exampleInitialDataActivity from './assets/test_data/pl_intialdata_plus_activity'
 import exampleInitialDataActivityFA from './assets/test_data/fa_intialdata_plus_activity'
 import exampleNextTask from './assets/test_data/pl_1_example_next_task'
@@ -23,7 +23,7 @@ if (process.env.PUBLIC_URL === ""){
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/pl/456", exampleInitialDataActivity),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/456", exampleInitialDataActivityFA),
         fetchMock.get("https://studies.civilservant.io/5qop/api/initial-data/fa/789", 401),
-        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialDataEnding),
+        fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", exampleInitialData),
         // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/initial-data/*", delay.then(()=>(exampleInitialDataFA))),
         fetchMock.get("glob:https://studies.civilservant.io/5qop/api/task/skip/*", {'success': true}),
         // fetchMock.get("glob:https://studies.civilservant.io/5qop/api/diff/thank/*", {'success': false, 'error': 'the world is broken'}),

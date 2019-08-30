@@ -147,11 +147,11 @@
     "de": "Dankeschön-Logbuch (das Update kann einige Minuten dauern): "
   },
   "thanker.end.no.candidates":{
-    "en": "You have reached the end. Currently there are no more users to thank.",
-    "ar": "You have reached the end. Currently there are no more users to thank.",
-    "fa": "You have reached the end. Currently there are no more users to thank.",
-    "pl": "You have reached the end. Currently there are no more users to thank.",
-    "de": "You have reached the end. Currently there are no more users to thank."
+    "en": "You have reached the end. Currently there are no more users left to thank.",
+    "ar": "لقد وصلت إلى النهاية. حاليا لا يوجد المزيد من المستخدمين تركوا الشكر.",
+    "fa": "شما به آخر رسیده اید. در حال حاضر هیچ کاربر دیگری برای تشکر باقی نمانده است.",
+    "pl": "Dotarłeś do końca. Obecnie nie ma już użytkowników, którzy mogliby podziękować.",
+    "de": "Sie haben das Ende erreicht. Momentan gibt es keine Benutzer mehr, denen wir danken können."
   },
   "activity.landing.title": {
     "en": "Wikipedia Study Instructions",
