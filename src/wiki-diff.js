@@ -96,7 +96,7 @@ function MakeTitleRow(diffObj, lang) {
 class DiffConsideration extends Component {
     render() {
         const localUrlPrefix = "https://" + this.props.lang + ".wikipedia.org/wiki";
-        const pageTitleUrl = localUrlPrefix + this.props.diffObj.pageTitle;
+        const pageTitleUrl = localUrlPrefix + '/' + this.props.diffObj.pageTitle;
         return (
             <Cell desktopColumns={6} phoneColumns={12} tabletColumns={12}>
                 <Card>
